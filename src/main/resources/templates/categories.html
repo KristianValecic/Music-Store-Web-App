@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:include="fragments/Head :: head">
+</head>
+<body>
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+<section class="mainSection">
+    <div class="mainContainer">
+        <form id="insertItemsForm" class="container-fluid card p-2 mb-3" th:action="@{/insertGenreCetgory}"
+              th:object="${newGenreCategory}" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group col">
+                        <label for="categoryNameInput">Genre name</label>
+                        <input type="text" class="form-control" id="categoryNameInput" aria-describedby="categoryNameInput"
+                               placeholder="Enter category name" th:field="*{newGenreCategory}" required>
+                    </div>
+                </div>
+                </div>
+            <div class="row">
+                <div class="col-7">
+                    <button type="submit" class="btn btn-primary">Insert</button>
+                </div>
+                <div class="col-5">
+                    <h4 id="errorMessage" th:text="${errorMessage}"></h4> <!--th:if="${errorMessage}"-->
+                </div>
+            </div>
+        </form>
+
+        <div id="insertedItemsTableContainer">
+            <table id="categoryTable" class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Genre name</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${genresList.empty}">
+                    <td colspan="2"> No Genre inserted</td>
+                </tr>
+                <tr th:each="genretype : ${genresList}">
+                    <td><span th:text="${genretype.genrename}"> Genre name </span></td>
+                    <td>
+                        <form id="btnDeleteFromDb"  onsubmit="return confirm('Are you sure you want to delete?')"
+                              th:action="@{'/deleteGenreFromDb/'+ ${genretype.idgenre}}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/script/category.js}"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/Head :: head">
+</head>
+<body>
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+
+<section class="mainSection">
+    <div class="mainContainer">
+        <div id="insertContainer">
+
+            <form id="insertItemsForm" class="container-fluid card p-2 mb-3" th:action="@{/insertInputedItem}"
+                  th:object="${newItem}" method="post" enctype="multipart/form-data">
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group col">
+                            <label for="artistNameInput">Artist name</label>
+                            <input type="text" class="form-control" id="artistNameInput" aria-describedby="artistName"
+                                   placeholder="Enter artist name" th:field="*{album.artist.artistname}" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group col">
+                            <label for="ablumNameInput">Album name</label>
+                            <input type="text" class="form-control" id="ablumNameInput" aria-describedby="ablumName"
+                                   placeholder="Enter album name" th:field="*{album.albumname}" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+
+                        <div class="form-group col">
+                            <label for="genreTypeSelect">Genre</label>
+                            <select class="form-control" id="genreTypeSelect" name="genretype">
+                                <option th:each="genretype : ${genreList}"
+                                        th:value="${genretype.genrename}" th:text="${genretype.genrename}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group col">
+                            <label for="mediaTypeSelect">Genre</label>
+                            <select class="form-control" id="mediaTypeSelect" name="mediatype">
+                                <option th:each="mediatype : ${T(hr.valecic.musicstorewebapp.model.enums.MediaType).values()}"
+                                        th:value="${mediatype}" th:text="${mediatype}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group col">
+                            <div class="row">
+                                <label class="form-label col" for="imageInput">Album image upload</label>
+                                <img id="tempUploadImage" class="col tempUploadImageDisplay" th:src="@{'data:image/png;base64,'+${image}}"
+                                     alt="Image">
+                            </div>
+                            <input class="form-control imageInput" id="imageInput" type="file" name="image" accept="image/*"
+                                   oninput="uploadImage(this)" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group col">
+                            <label class="form-label" for="quantity">Quantity:</label>
+                            <input type="number" class="form-control" id="quantity" th:field="*{amountinstock}"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group col">
+                            <label class="form-label" for="price">Price:</label>
+                            <input type="number" step="any" class="form-control" id="price" th:field="*{price}"
+                                   required/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-7">
+                        <button type="submit" class="btn btn-primary">Insert</button>
+                    </div>
+                    <div class="col-5">
+                        <h4 id="errorMessageInsert" class="errorMessage" th:text="${errorMessage}"></h4> <!--th:if="${errorMessage}"-->
+                    </div>
+                </div>
+            </form>
+            <div id="insertedItemsTableContainer">
+                <table id="insertedItemsTable" class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Artist name</th>
+                        <th scope="col">Album name</th>
+                        <th scope="col">Album image</th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Media</th>
+                        <th scope="col">In stock</th>
+                        <th scope="col">Price</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${itemsList.empty}">
+                        <td colspan="2"> No Items inserted</td>
+                    </tr>
+                    <tr th:each="item : ${itemsList}">
+                        <td><span th:text="${item.album.artist.artistname}"> Artist name </span></td>
+                        <td><span th:text="${item.album.albumname}"> Album name </span></td>
+                        <td><img id="albumImageTable"
+                                 th:src="'data:image/png;base64,' + ${item.album.getImageInBase64()}" alt="Album image">
+                        </td>
+                        <td><span th:text="${item.album.genretype}"> Genre </span></td>
+                        <td><span th:text="${item.mediatype}"> Media </span></td>
+                        <td><span th:text="${item.amountinstock}"> amount in stock </span></td>
+                        <td><span th:text="${item.price}"> Price </span></td>
+                        <td>
+                            <!--                            <form id="btnUpdateFromDb"  method="post">-->
+                            <button class="btn btn-primary updateBtn" data-toggle="modal" data-target="#updateModal"
+                                    th:data-itemId="${item.iditem}"
+                                    th:data-itemArtistName="${item.album.artist.artistname}"
+                                    th:data-itemAlbumName="${item.album.albumname}"
+                                    th:data-itemGenre="${item.album.genretype}"
+                                    th:data-itemMedia="${item.mediatype}"
+                                    th:data-itemAmountInStock="${item.amountinstock}"
+                                    th:data-itemPrice="${item.price}"
+                                    th:data-imageB64="${item.album.getImageInBase64()}"
+                                    onclick="updateModalOpen(this)">Update
+                            </button>
+                            <!--                            </form>-->
+                        </td>
+                        <td>
+                            <form id="btnDeleteFromDb"
+                                  onclick="alertConfirm('Are you shure you want to delete this item?')"
+                                  th:action="@{'/DeleteItemFromDb/'+ ${item.iditem}}" method="post">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update item</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="updateItemForm" class="container-fluid card p-2 mb-3" action="/updateItem/"
+                              method="post" enctype="multipart/form-data">
+
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="artistNameUpdateInput">Artist name</label>
+                                    <input type="text" class="form-control" id="artistNameUpdateInput"
+                                           name="artistNameUpdateInput"
+                                           aria-describedby="artistName"
+                                           placeholder="Enter artist name" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="ablumNameInput">Album name</label>
+                                    <input type="text" class="form-control" id="ablumNameUpdateInput"
+                                           name="ablumNameUpdateInput"
+                                           aria-describedby="ablumName"
+                                           placeholder="Enter album name" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="form-group col">
+                                    <label for="genreTypeSelect">Genre</label>
+                                    <select class="form-control" id="genreTypeUpdateSelect" name="genreTypeUpdateSelect">
+                                        <option th:each="genretype : ${genreList}"
+                                                th:text="${genretype.genrename}"></option><!-- change value  -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="mediaTypeSelect">Genre</label>
+                                    <select class="form-control" id="mediaTypeUpdateSelect" name="mediaTypeUpdateSelect">
+                                        <option th:each="mediatype : ${T(hr.valecic.musicstorewebapp.model.enums.MediaType).values()}"
+                                                th:text="${mediatype}"></option><!-- change value  -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <div class="row">
+                                        <label class="form-label col" for="imageUpdateInput">Album image</label>
+                                        <img id="tempUploadUpdateImage" class="col tempUploadImageDisplay" alt="Image">
+                                    </div>
+                                    <input class="form-control imageInput" id="imageUpdateInput" name="imageUpdateInput" type="file" accept="image/*"
+                                           oninput="uploadImage(this)" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label class="form-label" for="quantity">Quantity:</label>
+                                    <input type="number" class="form-control" id="updateAmountInStock" name="updateAmountInStock" required/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label class="form-label" for="price">Price:</label>
+                                    <input type="number" step="any" class="form-control" id="updatePrice" name="updatePrice"
+                                           required/>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <h4 id="errorMessageUpdate" class="errorMessage" th:text="${errorMessage}"></h4>
+                                <!--th:if="${errorMessage}"-->
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button id="submitUpdateButton" type="button" class="btn btn-primary">Update Item</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!--<script src="DataTables/datatables.min.js"></script>-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/script/insertItems.js}"></script>
+</body>
+</html>

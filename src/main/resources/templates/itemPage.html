@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/Head :: head">
+</head>
+<body>
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+
+<section class="mainSection">
+    <div class="mainContainer">
+        <div id="itemPageItemContainer">
+            <img id="itemPageAlbumImage" th:src="'data:image/png;base64,' + ${itemPageViewModel.item.album.getImageInBase64()}"
+                 th:alt="'album image of ' + ${itemPageViewModel.item.album.albumname}">
+            <div id="itemPageInfoContainer">
+              <!-- container-fluid card p-2 mb-3-->
+                <h1 th:text="${itemPageViewModel.item.album.albumname}"></h1>
+                <h3 th:text="${itemPageViewModel.item.album.artist.artistname}"></h3>
+                <h2 th:text="${itemPageViewModel.item.price} +'€'"></h2>
+                <form id="addItemToCartForm" class="" th:action="@{/addItemToCart}"
+                      method="post" >
+                <div id="ItemAmountInputContainer">
+                    <label class="form-label" for="itemAmount">Amount:</label>
+                    <input type="number" class="form-control" id="itemAmount" th:default="1"
+                           th:field="*{itemPageViewModel.itemAmount}" name="itemAmount" required/>
+                </div>
+
+                <button class="btn btn-primary">Add to cart</button>
+                </form>
+                    <!--                <p th:text=""></p>-->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

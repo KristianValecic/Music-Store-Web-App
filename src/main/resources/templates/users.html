@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/Head :: head">
+</head>
+<body>
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+<section class="mainSection">
+  <div class="mainContainer">
+    <ul>
+        <li>povijesni pregled podataka o tome tko se, kada
+            i sa koje adrese ulogirao</li>
+        <li>povijesni pregled kupnji, za sve
+            kupce, s istim informacijama. Omogućiti jednostavne filtere za pretragu po
+            kupcu i vremenskom periodu kupnje </li>
+    </ul>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

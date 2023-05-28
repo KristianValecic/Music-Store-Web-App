@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="navigation">
+    <nav id="navNavbarElement" class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div id="navContainer">
+            <a class="navbar-brand" href="/home">MWS</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <div><!-- if ADMIN -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/insertItems">Items
+                                <!--<span class="sr-only">(current)</span>-->
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/users">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories">Genre categories
+                            </a>
+                        </li>
+                    </div>
+                    <!-- if ANONYMUS-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/shoppingCart">Cart
+                        </a>
+                    </li>
+                    <div><!-- if USER -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">Profile</a>
+                        </li>
+                    </div>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/Head :: head">
+</head>
+<body>
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+<section class="mainSection">
+    <div class="mainContainer">
+        <div>
+            <h1>Media type</h1>
+            <div id="mediaTypeFilterContainer">
+                <div class="mediaIconContainer"
+                     th:each="media : ${T(hr.valecic.musicstorewebapp.model.enums.MediaType).values()}">
+                    <h2 th:text="${media}"></h2>
+                </div>
+            </div>
+            <div class="line"></div>
+            <h1>Genres</h1>
+            <div id="genresSliderContainer">
+                <div class="genreIconContainer"
+                     th:each="genre : ${genreList}">
+                    <h2 th:text="${genre.genrename}"></h2>
+                </div>
+            </div>
+            <div class="line"></div>
+        </div>
+        <section id="topItemsSection">
+            <h1>Top items in stock</h1>
+            <div id="itemsHomeContainer">
+                <div class="itemsIconHome" th:each="item : ${itemsList}">
+                    <div>
+                        <a th:href="@{'/itemPage/'+ ${item.iditem}}">
+                            <img th:src="'data:image/png;base64,' + ${item.album.getImageInBase64()}"
+                                 th:alt="'album image of ' + ${item.album.albumname}">
+                            <p class="" th:text="${item.album.albumname}"></p>
+                            <p th:text="${item.price}"></p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+</section>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/script/home.js}"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# Use root/root as user/password credentials
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:12.4
+    environment:
+      POSTGRES_USER: sql
+      POSTGRES_PASSWORD: sql
+      POSTGRES_DB: MusicStore
+
+    ports:
+      - "5432:5432"
