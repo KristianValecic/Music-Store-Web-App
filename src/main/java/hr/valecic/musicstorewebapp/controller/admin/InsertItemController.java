@@ -25,6 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @SessionAttributes({"itemsList", "newItem", "image", "errorMessage"})
 public class InsertItemController {
+    private static final int MAX_IMAGE_SIZE = 1048576;
     private final ItemService itemService;
     private final ArtistService artistService;
     private final AlbumService albumService;
@@ -104,11 +105,10 @@ public class InsertItemController {
 
     @PostMapping("/uploadAlbumImage")
     public String uploadAlbumImage(@RequestParam("image") MultipartFile file, Model model) throws IOException {
-
-        byte[] image = file.getBytes();
-        model.addAttribute("image", Base64.getEncoder().encodeToString(image));
-
-
+        if (file.getSize() <= MAX_IMAGE_SIZE){
+            byte[] image = file.getBytes();
+            model.addAttribute("image", Base64.getEncoder().encodeToString(image));
+        }
         return "redirect:/insertItems";
     }
 }

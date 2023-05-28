@@ -8,17 +8,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @Controller
 @AllArgsConstructor
-@SessionAttributes({"itemPageViewModel", "cartList"})
+@SessionAttributes({"itemPageViewModel", "cartList", "cartTotalPrice"})
 public class ShoppingCartController { //TODO: add cart to database for auth users
+
+    private static BigDecimal totalCartPrice = new BigDecimal("0");
+    @GetMapping("/shoppingCart")
+    public String itemCart(Model model) {
+        model.addAttribute("cartList", ShoppingCartList.getInstance());
+
+        totalCartPrice = new BigDecimal("0");
+        ShoppingCartList.getInstance().forEach(shoppingCartItem -> {
+            totalCartPrice = totalCartPrice.add(shoppingCartItem.getTotalPrice());
+        });
+        model.addAttribute("cartTotalPrice", totalCartPrice);
+
+        return "shoppingCart";
+    }
     @PostMapping("/addItemToCart")
     public String addItemToCart(@ModelAttribute ItemPageViewModel itemPageViewModel,
                                 @RequestParam("itemAmount") Integer itemAmount, Model model) {
         itemPageViewModel.setItemAmount(itemAmount);
         ShoppingCartList.addItem(ShoppingCartItem.getItemFromItemPageVM(itemPageViewModel));
         model.addAttribute("cartList", ShoppingCartList.getInstance());
-
         return "redirect:/shoppingCart";
     }
     @PostMapping("/removeAmountFromCart/{itemIndex}/{amount}")
@@ -38,12 +53,7 @@ public class ShoppingCartController { //TODO: add cart to database for auth user
 
         return "redirect:/shoppingCart";
     }
-    @GetMapping("/shoppingCart")
-    public String itemCart(Model model) {
-        model.addAttribute("cartList", ShoppingCartList.getInstance());
 
-        return "shoppingCart";
-    }
     @GetMapping("/clearShoppingCart")
     public String clearShoppingCart(Model model) {
         ShoppingCartList.getInstance().clear();

@@ -7,6 +7,7 @@ async function uploadImage(event) {
     var img = event;
     var file = img.files[0];
     var formData = new FormData();
+    let imageDOM = event.form.querySelector('.tempUploadImageDisplay');
     formData.append('image', file);
 
     var imageBase64 = await toBase64(file);
@@ -18,7 +19,6 @@ async function uploadImage(event) {
         processData: false,
         contentType: false,
         success: function (response) {
-            let imageDOM = event.form.querySelector('.tempUploadImageDisplay');
             imageDOM.src = imageBase64
             event.form.querySelector('.errorMessage').innerText = "";
             console.log('Image uploaded successfully');
@@ -26,7 +26,8 @@ async function uploadImage(event) {
         error: function (xhr, status, error) {
             console.log('Error uploading image:', error);
             event.form.querySelector('.errorMessage').innerText = "Image file size too big.";
-            clearFileInput(document.getElementById(".imageInput"));
+            imageDOM.src = ""
+            clearFileInput( event.form.querySelector('.imageInput'));
         }
     });
 }
@@ -61,7 +62,7 @@ function alertConfirm(message) {
     }
 }
 
-//TODO: controller update post, promjena slike
+//TODO: fix da nema submit ako je error message
 function updateModalOpen(event) {
     console.log("update btn event triggered")
     let form = document.getElementById('updateItemForm')
@@ -91,7 +92,6 @@ function updateModalOpen(event) {
 
     let image = document.getElementById("tempUploadUpdateImage");
     image.src = baseImgSrc + event.getAttribute('data-imageB64');
-
 }
 
 document.getElementById("submitUpdateButton").addEventListener("click", function () {
