@@ -1,2 +1,2 @@
 # Music-Store-Web-App
- Music web store application made i java srping boot
+ Music web store application made in java srping boot
