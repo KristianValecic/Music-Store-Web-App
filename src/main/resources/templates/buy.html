@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/Head :: head">
+<head th:include="fragments/head :: head">
 
 </head>
 <body>
 <div th:replace="~{fragments/navigation :: navigation}"></div>
 <section class="mainSection">
-  <div class="mainContainer">
-    <h1>Buy page</h1>
-  </div>
+    <div class="mainContainer">
+        <h1 class="text-center mb-2">Thank you for your purchase.</h1>
+        <form class="d-flex justify-content-center" th:action="@{/home}">
+            <button class="btn btn-success p-2 fs-1">Get back to Shopping!</button>
+        </form>
+    </div>
 </section>
 </body>
 </html>

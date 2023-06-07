@@ -38,3 +38,6 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+  security:
+    jwt:
+      secret: doorstuckdoorstuck

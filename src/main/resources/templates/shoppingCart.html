@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:include="fragments/Head :: head">
+<head th:include="fragments/head :: head">
 </head>
 <body>
 <div th:replace="~{fragments/navigation :: navigation}"></div>
@@ -50,10 +50,11 @@
             </tbody>
         </table>
         <div>
+            <input id="hiddenCartTotalPrice" type="hidden" th:value="${cartTotalPrice}">
             <h2 id="toalCartPrice" th:text="'Total price ' + ${cartTotalPrice} + '€'"></h2>
         </div>
-        <div class="row">
-            <div class="col-10">
+        <div class="row" th:if="${!cartList.empty}">
+            <div class="col-10" >
                 <form class="btn" th:action="@{/buyItems}">
                     <button class="btn btn-primary">Purchase with cash on delivery</button>
                 </form>

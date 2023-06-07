@@ -1,11 +1,16 @@
 CREATE SCHEMA IF NOT EXISTS musicstoreschema;
 
+Create table if not exists musicstoreschema.roles(
+     idrole serial PRIMARY KEY,
+     rolename varchar(255) NOT NULL
+);
 CREATE TABLE if not exists musicstoreschema.person (
     idperson serial primary key  ,
     firstname varchar(255) NOT NULL ,
     lastname varchar(255) NOT NULL ,
     email varchar(255) NOT NULL ,
     adress varchar(255) not null ,
+    roleid int references musicstoreschema.roles(idrole) not null,
     password TEXT not null
 );
 
@@ -75,8 +80,25 @@ CREATE TABLE if not exists musicstoreschema.purchase (
      shoppingcartid int references musicstoreschema.shoppingcart(idcart) not null,
      personid int references musicstoreschema.person(idperson) not null
 );
-insert into musicstoreschema.person (firstname, lastname, email, adress, password)
-values ('testni', 'korisnik', 'e@mail.com', 'ulica 21', '123');
+
+insert into musicstoreschema.roles (rolename)
+values ('ADMIN_ROLE'), ('USER_ROLE');
+
+-- insert into musicstoreschema.person (firstname, lastname, email, adress, roleid, password)
+-- values ('admin', 'admin', 'ad@min.com', 'adinska', 1, '$2a$12$5oA3YL6tSEGsnxYqvsZ.QuC7wKAIBQ1vuE8uiCSfLZniZ71q6wP4C'), ('testni', 'korisnik', 'e@mail.com', 'ulica 21', 2, '$2a$12$5oA3YL6tSEGsnxYqvsZ.QuC7wKAIBQ1vuE8uiCSfLZniZ71q6wP4C');
+
+INSERT INTO musicstoreschema.person (firstname, lastname, email, adress, roleid, password)
+SELECT 'admin', 'admin', 'ad@min.com', 'adinska', 1, '$2a$12$5oA3YL6tSEGsnxYqvsZ.QuC7wKAIBQ1vuE8uiCSfLZniZ71q6wP4C'
+    WHERE NOT EXISTS (
+    SELECT 1 FROM musicstoreschema.person
+    WHERE email = 'ad@min.com'
+    );
+INSERT INTO musicstoreschema.person (firstname, lastname, email, adress, roleid, password)
+SELECT 'testni', 'korisnik', 'e@mail.com', 'ulica 21', 2, '$2a$12$5oA3YL6tSEGsnxYqvsZ.QuC7wKAIBQ1vuE8uiCSfLZniZ71q6wP4C'
+    WHERE NOT EXISTS (
+    SELECT 1 FROM musicstoreschema.person
+    WHERE email = 'e@mail.com'
+    );
 
 insert into musicstoreschema.mediacategory (mediacategoryname)
 values ('CD'), ('VINYL'), ('CASSETTE');

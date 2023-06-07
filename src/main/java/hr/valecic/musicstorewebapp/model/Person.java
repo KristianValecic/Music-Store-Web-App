@@ -1,12 +1,14 @@
 package hr.valecic.musicstorewebapp.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 @Entity
 @Table(name = "person")
-public class Person {
+public class Person implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idperson", nullable = false)
@@ -26,6 +28,12 @@ public class Person {
     @Basic
     @Column(name = "password", nullable = false, length = -1)
     private String password;
+//    @Basic
+//    @Column(name = "roleid", nullable = false)
+//    private Integer roleid;
+    @ManyToOne
+    @JoinColumn(name = "roleid", referencedColumnName = "idrole", nullable = false)
+    private Roles role;
 
     public Long getIdperson() {
         return idperson;
@@ -67,12 +75,41 @@ public class Person {
         this.adress = adress;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null; //TODO: change to getting authorities
+    }
+
     public String getPassword() {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     @Override
@@ -101,5 +138,21 @@ public class Person {
         result = 31 * result + (adress != null ? adress.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
+    }
+
+//    public Integer getRoleid() {
+//        return roleid;
+//    }
+//
+//    public void setRoleid(Integer roleid) {
+//        this.roleid = roleid;
+//    }
+
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
     }
 }
