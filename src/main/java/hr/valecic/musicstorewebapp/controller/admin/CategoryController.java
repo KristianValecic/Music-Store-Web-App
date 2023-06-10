@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@SessionAttributes({"newGenreCategory", "genresList"})
+@SessionAttributes({"newGenreCategory", "genresList", "authRole"})
 public class CategoryController {
 
     private final GenreService genreService;

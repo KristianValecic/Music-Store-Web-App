@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> -->
 <head>
 </head>
 <body>
 
 <div th:fragment="navigation">
-    <nav id="navNavbarElement" class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <nav id="navNavbarElement" class="navbar navbar-expand-lg navbar-dark bg-dark static-top" >
         <div id="navContainer">
             <a class="navbar-brand" href="/home">MWS</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -13,9 +14,9 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
+            <div class="collapse navbar-collapse" id="navbarResponsive"  th:if="${authRole != ''}">
                 <ul class="navbar-nav ml-auto">
-                    <div><!-- if ADMIN -->
+                    <div th:if="${authRole == T(hr.valecic.musicstorewebapp.model.enums.RoleEnum).ADMIN_ROLE.toString()}"><!-- if ADMIN -->
                         <li class="nav-item">
                             <a class="nav-link" href="/insertItems">Items
                                 <!--<span class="sr-only">(current)</span>-->
@@ -38,7 +39,7 @@
                         <a class="nav-link" href="/shoppingCart">Cart
                         </a>
                     </li>
-                    <div><!-- if USER -->
+                    <div th:if="${authRole != ''}"><!-- if USER -->
                         <li class="nav-item">
                             <a class="nav-link" href="/profile">Profile</a>
                         </li>

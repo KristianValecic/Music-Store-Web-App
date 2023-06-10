@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @AllArgsConstructor
-@SessionAttributes({"itemPageViewModel", "cartList"})
+@SessionAttributes({"itemPageViewModel", "cartList", "authRole"})
 public class ItemPageController {
     private final ItemService itemService;
 

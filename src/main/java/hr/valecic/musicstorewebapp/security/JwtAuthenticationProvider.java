@@ -25,12 +25,12 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
 
-        Person person = personService.getPersonByEmail(email);
+        Person person = personService.getPersonByEmail(email).get();
 
 //        String token = jwtUtil.generateAccessToken(person);
 
         // Load user details by email
-        UserDetails userDetails = new CustomPersonDetails(personService.getPersonByEmail(email));
+        UserDetails userDetails = new CustomPersonDetails(person);
 
         // Perform additional authentication checks if needed (e.g., password verification)
 

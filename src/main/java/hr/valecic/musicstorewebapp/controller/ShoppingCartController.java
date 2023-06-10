@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 @Controller
 @AllArgsConstructor
-@SessionAttributes({"itemPageViewModel", "cartList", "cartTotalPrice"})
+@SessionAttributes({"itemPageViewModel", "cartList", "cartTotalPrice", "authRole"})
 public class ShoppingCartController { //TODO: add cart to database for auth users
 
     private static BigDecimal totalCartPrice = new BigDecimal("0");

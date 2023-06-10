@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:include="fragments/head :: head">
+</head>
+<body>
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+<section class="mainSection">
+    <div class="mainContainer">
+        <div class="p-3 py-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-right">Profile Settings</h4>
+            </div>
+            <form th:action="@{/savePersonChanges}" th:object="${person}" method="post">
+                <input type="hidden" th:field="*{idperson}"/>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label class="labels">Name</label>
+                        <input type="text" class="form-control" placeholder="first name" th:field="*{firstname}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">Surname</label>
+                        <input type="text" class="form-control" th:field="*{lastname}" placeholder="surname">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="labels">Email</label>
+                        <input type="text" class="form-control" th:field="*{email}" placeholder="surname">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">Address</label>
+                        <input type="text" class="form-control" th:field="*{adress}" placeholder="surname">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">Surname</label>
+                        <input type="text" class="form-control" value="" th:field="*{password}" placeholder="surname">
+                    </div>
+                </div>
+            </form>
+            <div class="row mt-5">
+                <form class="btn" th:action="@{/profile}" method="get">
+                    <input class="btn btn-success" type="submit" value="Back"/>
+                </form>
+                <form class="btn" th:action="@{/editProfile}" method="get">
+                    <input class="btn btn-primary" type="submit" value="Save changes"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package hr.valecic.musicstorewebapp.controller;
 
 import hr.valecic.musicstorewebapp.dal.repository.PersonRepository;
+import hr.valecic.musicstorewebapp.model.CustomPersonDetails;
 import hr.valecic.musicstorewebapp.model.Person;
 import hr.valecic.musicstorewebapp.security.AuthRequest;
 import hr.valecic.musicstorewebapp.security.AuthResponse;
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.WebAttributes;
@@ -26,9 +28,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Controller
 @AllArgsConstructor
+@SessionAttributes({"isAuthenticated", "authRole"})
 public class LoginController {
 //    private AuthenticationManager authenticationManager;
     private PersonRepository personRepository;
@@ -65,9 +72,14 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+    public String loginPage(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!auth.getPrincipal().getClass().equals(CustomPersonDetails.class)){
+            model.addAttribute("authRole", "");
+        }
+        //Just for checking requests
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
 
         return "login";
     }

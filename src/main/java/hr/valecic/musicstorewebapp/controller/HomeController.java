@@ -5,9 +5,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hr.valecic.musicstorewebapp.dal.service.GenreService;
 import hr.valecic.musicstorewebapp.dal.service.ItemService;
+import hr.valecic.musicstorewebapp.model.CustomPersonDetails;
 import hr.valecic.musicstorewebapp.model.Genre;
 import hr.valecic.musicstorewebapp.model.Item;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +20,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@SessionAttributes({"itemsList"})
+@SessionAttributes({"itemsList", "authRole"})
 public class HomeController {
     private final ItemService itemService;
     private final GenreService genreService;
@@ -31,6 +34,12 @@ public class HomeController {
         genreList = genreService.getAllGenres();
         model.addAttribute("itemsList", itemsList);
         model.addAttribute("genreList", genreList);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getPrincipal().getClass().equals(CustomPersonDetails.class)){
+            String userRole = ((CustomPersonDetails)auth.getPrincipal()).getRole();
+            model.addAttribute("authRole", userRole);
+    }
 
         return "home";
     }

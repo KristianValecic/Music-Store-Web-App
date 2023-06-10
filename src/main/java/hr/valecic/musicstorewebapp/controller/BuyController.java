@@ -6,10 +6,12 @@ import hr.valecic.musicstorewebapp.viewmodel.InsertItemViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 
 @Controller
+@SessionAttributes({"authRole"})
 public class BuyController {
 
 

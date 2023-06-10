@@ -3,10 +3,12 @@
 <head th:include="fragments/head :: head">>
 </head>
 <body>
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+
 <section class="mainSection">
     <div class="mainContainer">
         <div class="d-flex justify-content-center">
-            <div id="mainRegisterDiv"
+            <div id="mainLoginDiv"
                  class="h-100 col-3 d-flex align-items-center justify-content-center position-absolute ">
                 <div class="column w-100">
                     <h1 class="mb-3">Login</h1>
@@ -29,8 +31,8 @@
                     <div class="w-100 d-flex align-items-center justify-content-center ">
                         <div class="alert fw-bold" th:if="${errorMessage}" th:text="${errorMessage}"></div>
                     </div>
-                    <div class="w-100 d-flex align-items-center justify-content-center ">
-                        <p class="w-50 ">Ako već nemate kreiran korisnički račun, možete ga kreirati <a href="register">ovdje</a>
+                    <div class="w-100 d-flex align-items-center justify-content-center text-center">
+                        <p class="w-50 ">If you don't have an account, you can make <a href="register">here</a>
                         </p>
                     </div>
                 </div>
@@ -38,6 +40,6 @@
         </div>
     </div>
 </section>
-<div th:replace="~{fragments/footer :: Footer}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

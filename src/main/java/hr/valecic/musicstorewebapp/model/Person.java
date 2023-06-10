@@ -1,9 +1,12 @@
 package hr.valecic.musicstorewebapp.model;
 
+import hr.valecic.musicstorewebapp.model.dto.PersonDTO;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 @Entity
@@ -34,6 +37,16 @@ public class Person implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "roleid", referencedColumnName = "idrole", nullable = false)
     private Roles role;
+
+    public static Person getPersonFromDto(PersonDTO personDTO) {
+        Person temp = new Person();
+        temp.setFirstname(personDTO.getFirstName());
+        temp.setLastname(personDTO.getLastName());
+        temp.setAdress(personDTO.getAddress());
+        temp.setEmail(personDTO.getEmail());
+        temp.setPassword(personDTO.getPassword());
+        return temp;
+    }
 
     public Long getIdperson() {
         return idperson;
@@ -77,7 +90,7 @@ public class Person implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null; //TODO: change to getting authorities
+        return null;
     }
 
     public String getPassword() {
@@ -155,4 +168,5 @@ public class Person implements UserDetails {
     public void setRole(Roles role) {
         this.role = role;
     }
+
 }

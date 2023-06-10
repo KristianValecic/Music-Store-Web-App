@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @Service
 public class PersonService implements UserDetailsService {
@@ -22,7 +24,11 @@ public class PersonService implements UserDetailsService {
         return new CustomPersonDetails(person);
     }
 
-    public Person getPersonByEmail(String email) {
-        return personRepository.findByEmail(email).get();
+    public Optional<Person> getPersonByEmail(String email) {
+        return personRepository.findByEmail(email);
+    }
+
+    public void savePerson(Person person) {
+        personRepository.save(person);
     }
 }

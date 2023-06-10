@@ -82,8 +82,17 @@ CREATE TABLE if not exists musicstoreschema.purchase (
 );
 
 insert into musicstoreschema.roles (rolename)
-values ('ADMIN_ROLE'), ('USER_ROLE');
-
+-- values ('ADMIN_ROLE'), ('USER_ROLE');
+SELECT 'ADMIN_ROLE'
+    WHERE NOT EXISTS (
+    SELECT 1 FROM musicstoreschema.roles
+    WHERE rolename = 'ADMIN_ROLE'
+    )
+union SELECT 'USER_ROLE'
+    WHERE NOT EXISTS (
+    SELECT 1 FROM musicstoreschema.roles
+    WHERE rolename = 'USER_ROLE'
+    );
 -- insert into musicstoreschema.person (firstname, lastname, email, adress, roleid, password)
 -- values ('admin', 'admin', 'ad@min.com', 'adinska', 1, '$2a$12$5oA3YL6tSEGsnxYqvsZ.QuC7wKAIBQ1vuE8uiCSfLZniZ71q6wP4C'), ('testni', 'korisnik', 'e@mail.com', 'ulica 21', 2, '$2a$12$5oA3YL6tSEGsnxYqvsZ.QuC7wKAIBQ1vuE8uiCSfLZniZ71q6wP4C');
 
@@ -101,7 +110,53 @@ SELECT 'testni', 'korisnik', 'e@mail.com', 'ulica 21', 2, '$2a$12$5oA3YL6tSEGsnx
     );
 
 insert into musicstoreschema.mediacategory (mediacategoryname)
-values ('CD'), ('VINYL'), ('CASSETTE');
+-- values ('CD'), ('VINYL'), ('CASSETTE');
+select 'CD'
+    where not exists (
+        select 1 from musicstoreschema.mediacategory
+        where mediacategoryname = 'CD'
+        )
+UNION
+SELECT 'VINYL'
+WHERE NOT EXISTS (
+        SELECT 1 FROM musicstoreschema.mediacategory WHERE mediacategoryname = 'VINYL'
+)
+UNION
+SELECT 'CASSETTE'
+WHERE NOT EXISTS (
+        SELECT 1 FROM musicstoreschema.mediacategory WHERE mediacategoryname = 'CASSETTE'
+);
+
 
 insert into musicstoreschema.genre (genrename)
-values ('PUNK'), ('METAL'), ('POP'), ('ROCK'), ('RAP'), ('FUNK')
+-- values ('PUNK'), ('METAL'), ('POP'), ('ROCK'), ('RAP'), ('FUNK')
+select 'PUNK'
+where not exists (
+        select 1 from musicstoreschema.genre
+        where genrename = 'PUNK'
+    )
+UNION
+SELECT 'METAL'
+WHERE NOT EXISTS (
+        SELECT 1 FROM musicstoreschema.genre WHERE genrename = 'METAL'
+    )
+UNION
+SELECT 'POP'
+WHERE NOT EXISTS (
+        SELECT 1 FROM musicstoreschema.genre WHERE genrename = 'POP'
+    )
+UNION
+SELECT 'ROCK'
+WHERE NOT EXISTS (
+        SELECT 1 FROM musicstoreschema.genre WHERE genrename = 'ROCK'
+    )
+UNION
+SELECT 'RAP'
+WHERE NOT EXISTS (
+        SELECT 1 FROM musicstoreschema.genre WHERE genrename = 'RAP'
+    )
+UNION
+SELECT 'FUNK'
+WHERE NOT EXISTS (
+        SELECT 1 FROM musicstoreschema.genre WHERE genrename = 'FUNK'
+    );

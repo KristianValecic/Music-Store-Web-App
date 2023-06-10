@@ -23,7 +23,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@SessionAttributes({"itemsList", "newItem", "image", "errorMessage"})
+@SessionAttributes({"itemsList", "newItem", "image", "errorMessage", "authRole"})
 public class InsertItemController {
     private static final int MAX_IMAGE_SIZE = 1048576;
     private final ItemService itemService;

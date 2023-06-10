@@ -15,6 +15,9 @@ public class CustomPersonDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return person.getAuthorities();
     }
+    public String getRole() {
+        return person.getRole().getRolename();
+    }
 
     @Override
     public String getPassword() {
