@@ -2,6 +2,7 @@ package hr.valecic.musicstorewebapp.controller;
 
 import hr.valecic.musicstorewebapp.dal.service.PersonService;
 import hr.valecic.musicstorewebapp.model.CustomPersonDetails;
+import hr.valecic.musicstorewebapp.model.Person;
 import hr.valecic.musicstorewebapp.model.shopping.ShoppingCartList;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -37,7 +39,8 @@ public class ProfileController {
     }
 
     @PostMapping("/savePersonChanges")
-    public String savePersonChanges(Model model) {
+    public String savePersonChanges(@ModelAttribute Person person, Model model) {
+//        insert update logic
 
         return "redirect:/profile";
     }

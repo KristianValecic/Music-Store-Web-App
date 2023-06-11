@@ -30,7 +30,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 //        String token = jwtUtil.generateAccessToken(person);
 
         // Load user details by email
-        UserDetails userDetails = new CustomPersonDetails(person);
+        UserDetails userDetails = new CustomPersonDetails(person);//TODO: check if password check is correct
 
         // Perform additional authentication checks if needed (e.g., password verification)
 

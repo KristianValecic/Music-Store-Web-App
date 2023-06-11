@@ -36,15 +36,18 @@
                         <input type="text" class="form-control" value="" th:field="*{password}" placeholder="surname">
                     </div>
                 </div>
+
+                <div class="row mt-5">
+                    <form class="btn" th:action="@{/profile}" method="get">
+                        <input class="btn btn-success" type="submit" value="Back"/>
+                    </form>
+                    <!--                <form class="btn" th:action="@{/editProfile}" method="post">-->
+                    <div class="btn">
+                        <input class="btn btn-primary" type="submit" value="Save changes"/>
+                    </div>
+                    <!--                </form>-->
+                </div>
             </form>
-            <div class="row mt-5">
-                <form class="btn" th:action="@{/profile}" method="get">
-                    <input class="btn btn-success" type="submit" value="Back"/>
-                </form>
-                <form class="btn" th:action="@{/editProfile}" method="get">
-                    <input class="btn btn-primary" type="submit" value="Save changes"/>
-                </form>
-            </div>
         </div>
     </div>
 </section>
