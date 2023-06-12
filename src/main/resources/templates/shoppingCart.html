@@ -54,7 +54,7 @@
             <h2 id="toalCartPrice" th:text="'Total price ' + ${cartTotalPrice} + '€'"></h2>
         </div>
         <div class="row" th:if="${!cartList.empty}">
-            <div class="col-10" >
+            <div class="col-10" th:if="${authRole != ''}">
                 <form class="btn" th:action="@{/buyItems}">
                     <button class="btn btn-primary">Purchase with cash on delivery</button>
                 </form>

@@ -15,6 +15,7 @@
                 <h1 th:text="${itemPageViewModel.item.album.albumname}"></h1>
                 <h3 th:text="${itemPageViewModel.item.album.artist.artistname}"></h3>
                 <h2 th:text="${itemPageViewModel.item.price} +'€'"></h2>
+                <h4 th:text="${itemPageViewModel.item.mediatype}"></h4>
                 <form id="addItemToCartForm" class="" th:action="@{/addItemToCart}"
                       method="post" >
                 <div id="ItemAmountInputContainer">

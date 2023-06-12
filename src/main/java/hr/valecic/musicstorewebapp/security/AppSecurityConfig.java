@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class AppSecurityConfig {
 
-//    private PersonService personService;
+    //    private PersonService personService;
 //    private JwtRequestFilter jwtRequestFilter;
 //    private JwtAuthenticationProvider jwtAuthenticationProvider;
 //    private AuthenticationManager authManager;
@@ -28,18 +28,20 @@ public class AppSecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/resources/**",
                                 "/static/**", "/webjars/**", "/login",
-                                "/register", "/css/**", "/js/**", "/authenticate"
-                        , "/home", "/shoppingCart")
+                                "/register", "/css/**", "/script/**", "/authenticate"
+                                , "/home", "/shoppingCart", "/itemPage/**",
+                                "/addItemToCart", "/filterHome",
+                                "/removeAmountFromCart/**", "/removeItemFromCart/**", "/clearShoppingCart")
                         .permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login")
-                        .usernameParameter("email")
+                                .loginPage("/login")
+                                .usernameParameter("email")
 //                        .loginProcessingUrl("/authenticate")
-                        .defaultSuccessUrl("/home", true)
-                        .failureUrl("/login-error")
-                        .permitAll()
+                                .defaultSuccessUrl("/home", true)
+                                .failureUrl("/login-error")
+                                .permitAll()
                 )
 //                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout((logout) -> logout.permitAll())
@@ -47,7 +49,7 @@ public class AppSecurityConfig {
 //                .sessionManagement()
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //                .httpBasic();
-;
+        ;
         return http.build();
     }
 
@@ -56,7 +58,7 @@ public class AppSecurityConfig {
         AuthenticationManagerBuilder authenticationManagerBuilder = http
 //                    .authenticationProvider(jwtAuthenticationProvider)
 //                        .userDetailsService(personService)
-                        .getSharedObject(AuthenticationManagerBuilder.class);
+                .getSharedObject(AuthenticationManagerBuilder.class);
         //authenticationManagerBuilder.authenticationProvider(authProvider);
         return authenticationManagerBuilder.build();
     }
