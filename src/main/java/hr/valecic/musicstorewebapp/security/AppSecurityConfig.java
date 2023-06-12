@@ -28,7 +28,8 @@ public class AppSecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/resources/**",
                                 "/static/**", "/webjars/**", "/login",
-                                "/register", "/css/**", "/js/**", "/authenticate")
+                                "/register", "/css/**", "/js/**", "/authenticate"
+                        , "/home", "/shoppingCart")
                         .permitAll()
                         .anyRequest().authenticated()
                 )

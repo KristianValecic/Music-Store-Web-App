@@ -10,10 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @AllArgsConstructor
@@ -39,9 +36,12 @@ public class ProfileController {
     }
 
     @PostMapping("/savePersonChanges")
-    public String savePersonChanges(@ModelAttribute Person person, Model model) {
+    public String savePersonChanges(@ModelAttribute Person person, @RequestParam("password") String password, Model model) {
 //        insert update logic
-
+        if (!password.isBlank()){
+            person.setPassword(passwordEncoder.encode(password));
+        }
+        personService.savePerson(person);
         return "redirect:/profile";
     }
 }
