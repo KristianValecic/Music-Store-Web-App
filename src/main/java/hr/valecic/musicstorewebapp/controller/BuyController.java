@@ -1,9 +1,11 @@
 package hr.valecic.musicstorewebapp.controller;
 
 import hr.valecic.musicstorewebapp.dal.service.PersonService;
+import hr.valecic.musicstorewebapp.dal.service.PurchaseService;
 import hr.valecic.musicstorewebapp.model.CustomPersonDetails;
 import hr.valecic.musicstorewebapp.model.Item;
 import hr.valecic.musicstorewebapp.model.Person;
+import hr.valecic.musicstorewebapp.model.Purchase;
 import hr.valecic.musicstorewebapp.model.shopping.ShoppingCartList;
 import hr.valecic.musicstorewebapp.viewmodel.InsertItemViewModel;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BuyController {
     private PersonService personService;
+    private PurchaseService purchaseService;
 
     @GetMapping("/buyItems")
     public String getAllItems(Model model) {
@@ -43,6 +46,7 @@ public class BuyController {
         }
 
         //ocisti cartlist
+        //makne kolicinu porizvoda iz baze
         //ispise thank you for your purchase
         ShoppingCartList.getInstance().clear();
 //        model.addAttribute("cartList", ShoppingCartList.getInstance());
