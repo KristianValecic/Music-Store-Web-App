@@ -65,6 +65,11 @@ CREATE TABLE if not exists musicstoreschema.shoppingcartitem (
     itemid int references musicstoreschema.item(iditem) not null,
     shoppingcartid int references musicstoreschema.shoppingcart(idcart)  not null
 );
+CREATE TABLE if not exists musicstoreschema.shoppingcartitems (
+      idshoppingcartitemslist serial primary key,
+      cartid int references musicstoreschema.shoppingcart(idcart) not null,
+      shoppingcartitemid int references musicstoreschema.shoppingcartitem(idcartitem) not null
+);
 
 -- CREATE TABLE if not exists musicstoreschema.itempurchase (
 --      iditempurchase serial primary key,

@@ -3,10 +3,8 @@ package hr.valecic.musicstorewebapp.model;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
-@Table(name = "purchase")
 public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -18,20 +16,9 @@ public class Purchase {
     @Basic
     @Column(name = "paymentmethod", nullable = false, length = 255)
     private String paymentmethod;
-//    @Basic
-//    @Column(name = "personid", nullable = false)
-//    private Integer personid;
-    @OneToMany(mappedBy = "purchaseByPurchaseid")
-    private Collection<Itempurchase> itempurchasesByIdpurchase;
     @ManyToOne
     @JoinColumn(name = "personid", referencedColumnName = "idperson", nullable = false)
-    private Person personid; //personByPersonid
-    @OneToOne
-    @JoinColumn(name = "shoppingcartid", referencedColumnName = "idcart", nullable = false)
-    private Shoppingcart shoppingcartid;
-//    @Basic
-//    @Column(name = "personid")
-//    private Long personid;
+    private Person personByPersonid;
 
     public Long getIdpurchase() {
         return idpurchase;
@@ -48,14 +35,6 @@ public class Purchase {
     public void setTimeofpurchase(Timestamp timeofpurchase) {
         this.timeofpurchase = timeofpurchase;
     }
-
-//    public Integer getPersonid() {
-//        return personid;
-//    }
-//
-//    public void setPersonid(Integer personid) {
-//        this.personid = personid;
-//    }
 
     public String getPaymentmethod() {
         return paymentmethod;
@@ -77,7 +56,6 @@ public class Purchase {
             return false;
         if (paymentmethod != null ? !paymentmethod.equals(purchase.paymentmethod) : purchase.paymentmethod != null)
             return false;
-//        if (personid != null ? !personid.equals(purchase.personid) : purchase.personid != null) return false;
 
         return true;
     }
@@ -87,39 +65,14 @@ public class Purchase {
         int result = idpurchase != null ? idpurchase.hashCode() : 0;
         result = 31 * result + (timeofpurchase != null ? timeofpurchase.hashCode() : 0);
         result = 31 * result + (paymentmethod != null ? paymentmethod.hashCode() : 0);
-//        result = 31 * result + (personid != null ? personid.hashCode() : 0);
         return result;
     }
 
-    public Collection<Itempurchase> getItempurchasesByIdpurchase() {
-        return itempurchasesByIdpurchase;
+    public Person getPersonByPersonid() {
+        return personByPersonid;
     }
 
-    public void setItempurchasesByIdpurchase(Collection<Itempurchase> itempurchasesByIdpurchase) {
-        this.itempurchasesByIdpurchase = itempurchasesByIdpurchase;
-    }
-
-//    public Person getPersonByPersonid() {
-//        return personByPersonid;
-//    }
-//
-//    public void setPersonByPersonid(Person personByPersonid) {
-//        this.personByPersonid = personByPersonid;
-//    }
-
-    public Shoppingcart getShoppingcartid() {
-        return shoppingcartid;
-    }
-
-    public void setShoppingcartid(Shoppingcart shoppingcartid) {
-        this.shoppingcartid = shoppingcartid;
-    }
-
-    public Person getPersonid() {
-        return personid;
-    }
-
-    public void setPersonid(Person personid) {
-        this.personid = personid;
+    public void setPersonByPersonid(Person personByPersonid) {
+        this.personByPersonid = personByPersonid;
     }
 }

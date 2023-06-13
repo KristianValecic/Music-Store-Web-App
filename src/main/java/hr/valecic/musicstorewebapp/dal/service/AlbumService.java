@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AlbumService {
 
-    @Autowired
     private final ArtistService artistService;
     private final AlbumRepository albumRepository;
 

@@ -37,6 +37,10 @@ public class Person implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "roleid", referencedColumnName = "idrole", nullable = false)
     private Roles role;
+//    @OneToMany(mappedBy = "personByPersonid")
+//    private Collection<Purchase> purchasesByIdperson;
+//    @OneToMany(mappedBy = "personByPersonid")
+//    private Collection<Shoppingcart> shoppingcartsByIdperson;
 
     public static Person getPersonFromDto(PersonDTO personDTO) {
         Person temp = new Person();
@@ -97,14 +101,15 @@ public class Person implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getUsername() {
         return this.email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -124,6 +129,14 @@ public class Person implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+//    public Integer getRoleid() {
+//        return roleid;
+//    }
+//
+//    public void setRoleid(Integer roleid) {
+//        this.roleid = roleid;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -153,14 +166,6 @@ public class Person implements UserDetails {
         return result;
     }
 
-//    public Integer getRoleid() {
-//        return roleid;
-//    }
-//
-//    public void setRoleid(Integer roleid) {
-//        this.roleid = roleid;
-//    }
-
     public Roles getRole() {
         return role;
     }
@@ -169,4 +174,19 @@ public class Person implements UserDetails {
         this.role = role;
     }
 
+//    public Collection<Purchase> getPurchasesByIdperson() {
+//        return purchasesByIdperson;
+//    }
+//
+//    public void setPurchasesByIdperson(Collection<Purchase> purchasesByIdperson) {
+//        this.purchasesByIdperson = purchasesByIdperson;
+//    }
+//
+//    public Collection<Shoppingcart> getShoppingcartsByIdperson() {
+//        return shoppingcartsByIdperson;
+//    }
+//
+//    public void setShoppingcartsByIdperson(Collection<Shoppingcart> shoppingcartsByIdperson) {
+//        this.shoppingcartsByIdperson = shoppingcartsByIdperson;
+//    }
 }

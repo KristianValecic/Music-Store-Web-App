@@ -1,26 +1,43 @@
 package hr.valecic.musicstorewebapp.model;
 
+import hr.valecic.musicstorewebapp.model.shopping.ShoppingCartItem;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 @Entity
-@Table(name = "shoppingcartitem")
 public class Shoppingcartitem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idcartitem")
+    @Column(name = "idcartitem", nullable = false)
     private Long idcartitem;
     @Basic
-    @Column(name = "itemamount")
+    @Column(name = "itemamount", nullable = false)
     private Integer itemamount;
     @Basic
-    @Column(name = "totalprice")
-    private Object totalprice;
-    @Basic
-    @Column(name = "itemid")
-    private Long itemid;
+    @Column(name = "totalprice", nullable = false)
+    private BigDecimal totalprice;
+    @ManyToOne
+    @JoinColumn(name = "itemid", referencedColumnName = "iditem", nullable = false)
+    private Item itemByItemid;
     @ManyToOne
     @JoinColumn(name = "shoppingcartid", referencedColumnName = "idcart", nullable = false)
-    private Shoppingcart shoppingcartid;
+    private Shoppingcart shoppingcartByShoppingcartid;
+
+    public static Collection<Shoppingcartitem> convertFromShoppingCartItem(Collection<ShoppingCartItem> cartItemsListForPerson) {
+        Collection<Shoppingcartitem> tempList = new ArrayList<>();
+        cartItemsListForPerson.forEach(shoppingCartItem -> {
+            Shoppingcartitem shoppingcartitem = new Shoppingcartitem();
+            shoppingcartitem.setItemamount(shoppingCartItem.getItemAmount());
+            shoppingcartitem.setTotalprice(shoppingCartItem.getTotalPrice());
+            shoppingcartitem.setItemByItemid(shoppingCartItem.getItem());
+            tempList.add(shoppingcartitem);
+        });
+        return tempList;
+    }
 
     public Long getIdcartitem() {
         return idcartitem;
@@ -38,28 +55,12 @@ public class Shoppingcartitem {
         this.itemamount = itemamount;
     }
 
-    public Object getTotalprice() {
+    public BigDecimal getTotalprice() {
         return totalprice;
     }
 
-    public void setTotalprice(Object totalprice) {
+    public void setTotalprice(BigDecimal totalprice) {
         this.totalprice = totalprice;
-    }
-
-    public Long getItemid() {
-        return itemid;
-    }
-
-    public void setItemid(Long itemid) {
-        this.itemid = itemid;
-    }
-
-    public Shoppingcart getShoppingcartid() {
-        return shoppingcartid;
-    }
-
-    public void setShoppingcartid(Shoppingcart shoppingcartid) {
-        this.shoppingcartid = shoppingcartid;
     }
 
     @Override
@@ -72,9 +73,6 @@ public class Shoppingcartitem {
         if (idcartitem != null ? !idcartitem.equals(that.idcartitem) : that.idcartitem != null) return false;
         if (itemamount != null ? !itemamount.equals(that.itemamount) : that.itemamount != null) return false;
         if (totalprice != null ? !totalprice.equals(that.totalprice) : that.totalprice != null) return false;
-        if (itemid != null ? !itemid.equals(that.itemid) : that.itemid != null) return false;
-        if (shoppingcartid != null ? !shoppingcartid.equals(that.shoppingcartid) : that.shoppingcartid != null)
-            return false;
 
         return true;
     }
@@ -84,8 +82,22 @@ public class Shoppingcartitem {
         int result = idcartitem != null ? idcartitem.hashCode() : 0;
         result = 31 * result + (itemamount != null ? itemamount.hashCode() : 0);
         result = 31 * result + (totalprice != null ? totalprice.hashCode() : 0);
-        result = 31 * result + (itemid != null ? itemid.hashCode() : 0);
-        result = 31 * result + (shoppingcartid != null ? shoppingcartid.hashCode() : 0);
         return result;
+    }
+
+    public Item getItemByItemid() {
+        return itemByItemid;
+    }
+
+    public void setItemByItemid(Item itemByItemid) {
+        this.itemByItemid = itemByItemid;
+    }
+
+    public Shoppingcart getShoppingcartByShoppingcartid() {
+        return shoppingcartByShoppingcartid;
+    }
+
+    public void setShoppingcartByShoppingcartid(Shoppingcart shoppingcartByShoppingcartid) {
+        this.shoppingcartByShoppingcartid = shoppingcartByShoppingcartid;
     }
 }

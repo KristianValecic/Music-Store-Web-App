@@ -1,7 +1,10 @@
 package hr.valecic.musicstorewebapp.model.shopping;
 
+import hr.valecic.musicstorewebapp.model.Shoppingcartitem;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ShoppingCartList {
@@ -47,8 +50,29 @@ public class ShoppingCartList {
     public static void decreaseItemAmount(Integer itemIndex, Integer amountToDecrease) {
         ShoppingCartItem shoppingCartItem = itemsList.get(itemIndex);
         shoppingCartItem.setItemAmount(shoppingCartItem.itemAmount - amountToDecrease);
+        for (int i = 0; i < amountToDecrease; i++){
+            shoppingCartItem.setTotalPrice(shoppingCartItem.totalPrice.subtract(shoppingCartItem.getItem().getPrice()));
+        }
         if (shoppingCartItem.itemAmount == 0){
             itemsList.remove(shoppingCartItem);
         }
     }
+
+    public static Collection<ShoppingCartItem> convertFromShoppingcartitem(Collection<Shoppingcartitem> cartItemsListForPerson) {
+        Collection<ShoppingCartItem> tempList = new ArrayList<>();
+        cartItemsListForPerson.forEach(shoppingcartitem -> {
+            ShoppingCartItem shoppingCartItem = new ShoppingCartItem(shoppingcartitem.getItemByItemid(), shoppingcartitem.getItemamount());
+            shoppingCartItem.setTotalPrice(shoppingcartitem.getTotalprice());
+            tempList.add(shoppingCartItem);
+        });
+        return tempList;
+    }
+
+//    public static List<ShoppingCartItem> convertList(Collection<? extends Shoppingcartitem> cartForPerson) {
+//        List<ShoppingCartItem> tempList = new ArrayList<>();
+//        cartForPerson.forEach(item -> {
+//            ShoppingCartItem newItem = new ShoppingCartItem(item.ite)
+//            tempList.add();
+//        });
+//    }
 }

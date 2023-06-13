@@ -6,20 +6,22 @@ import java.sql.Timestamp;
 import java.util.Collection;
 
 @Entity
-@Table(name = "shoppingcart")
 public class Shoppingcart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idcart", nullable = false)
     private Long idcart;
     @Basic
-    @Column(name = "creationtime")
+    @Column(name = "creationtime", nullable = false)
     private Timestamp creationtime;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "personid", referencedColumnName = "idperson", nullable = false)
-    private Person personid;
-    @OneToMany(mappedBy = "shoppingcartid")
-    private Collection<Shoppingcartitem> cartitemid;
+    private Person person;
+    @OneToMany(mappedBy = "shoppingcartByShoppingcartid")
+    private Collection<Shoppingcartitem> shoppingcartitemsByIdcart;
+//    @Basic
+//    @Column(name = "personid", nullable = false)
+//    private Long personid;
 
     public Long getIdcart() {
         return idcart;
@@ -37,14 +39,6 @@ public class Shoppingcart {
         this.creationtime = creationtime;
     }
 
-    public Person getPersonid() {
-        return personid;
-    }
-
-    public void setPersonid(Person person) {
-        this.personid = person;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,7 +48,6 @@ public class Shoppingcart {
 
         if (idcart != null ? !idcart.equals(that.idcart) : that.idcart != null) return false;
         if (creationtime != null ? !creationtime.equals(that.creationtime) : that.creationtime != null) return false;
-        if (personid != null ? !personid.equals(that.personid) : that.personid != null) return false;
 
         return true;
     }
@@ -63,7 +56,30 @@ public class Shoppingcart {
     public int hashCode() {
         int result = idcart != null ? idcart.hashCode() : 0;
         result = 31 * result + (creationtime != null ? creationtime.hashCode() : 0);
-        result = 31 * result + (personid != null ? personid.hashCode() : 0);
         return result;
     }
+
+    public Person getPersonByPersonid() {
+        return person;
+    }
+
+    public void setPersonByPersonid(Person personByPersonid) {
+        this.person = personByPersonid;
+    }
+
+    public Collection<Shoppingcartitem> getShoppingcartitemsByIdcart() {
+        return shoppingcartitemsByIdcart;
+    }
+
+    public void setShoppingcartitemsByIdcart(Collection<Shoppingcartitem> shoppingcartitemsByIdcart) {
+        this.shoppingcartitemsByIdcart = shoppingcartitemsByIdcart;
+    }
+
+//    public Long getPersonid() {
+//        return personid;
+//    }
+//
+//    public void setPersonid(Long personid) {
+//        this.personid = personid;
+//    }
 }

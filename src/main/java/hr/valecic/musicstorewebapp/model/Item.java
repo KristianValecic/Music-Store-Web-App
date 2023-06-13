@@ -27,6 +27,23 @@ public class Item {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    public static Item getItemFromViewModelToItem(InsertItemViewModel insertedItem) throws IOException {
+        Artist artist = insertedItem.getAlbum().getArtist();
+
+        Album album = insertedItem.getAlbum();
+        album.setImage(insertedItem.getImage().getBytes());
+        album.setGenretype(insertedItem.getGenretype());
+        album.setArtist(artist);
+
+        Item item = new Item();
+        item.setMediatype(insertedItem.getMediatype());
+        item.setAlbum(album);
+        item.setAmountinstock(insertedItem.getAmountinstock());
+        item.setPrice(insertedItem.getPrice());
+
+        return item;
+    }
+
     public Long getIditem() {
         return iditem;
     }
@@ -65,6 +82,7 @@ public class Item {
 
         return true;
     }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -75,6 +93,7 @@ public class Item {
                 ", price=" + price +
                 '}';
     }
+
     @Override
     public int hashCode() {
         int result = iditem != null ? iditem.hashCode() : 0;
@@ -97,21 +116,5 @@ public class Item {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-    public static Item getItemFromViewModelToItem(InsertItemViewModel insertedItem) throws IOException {
-        Artist artist = insertedItem.getAlbum().getArtist();
-
-        Album album = insertedItem.getAlbum();
-        album.setImage(insertedItem.getImage().getBytes());
-        album.setGenretype(insertedItem.getGenretype());
-        album.setArtist(artist);
-
-        Item item = new Item();
-        item.setMediatype(insertedItem.getMediatype());
-        item.setAlbum(album);
-        item.setAmountinstock(insertedItem.getAmountinstock());
-        item.setPrice(insertedItem.getPrice());
-
-        return item;
     }
 }
