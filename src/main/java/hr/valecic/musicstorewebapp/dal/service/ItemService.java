@@ -74,6 +74,9 @@ public class ItemService {
         Item itemToUpdate = itemRepository.findItemByIditem(shoppingCartItem.getItem().getIditem());
         itemToUpdate.setAmountinstock(itemToUpdate.getAmountinstock() - shoppingCartItem.getItemAmount());
 
-        itemRepository.save(itemToUpdate);
+        System.out.println("item: " + itemToUpdate);
+        if (itemToUpdate.getAmountinstock() <= 0) {
+            itemRepository.save(itemToUpdate);
+        }
     }
 }

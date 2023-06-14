@@ -16,9 +16,13 @@
                 <h3 th:text="${itemPageViewModel.item.album.artist.artistname}"></h3>
                 <h2 th:text="${itemPageViewModel.item.price} +'€'"></h2>
                 <h4 th:text="${itemPageViewModel.item.mediatype}"></h4>
+                <h5 class="text-success font-weight-bold" th:if="${inStock}">In stock</h5>
+                <h5 class="text-danger font-weight-bold" th:if="${!inStock}">Out of stock</h5>
                 <form id="addItemToCartForm" class="" th:action="@{/addItemToCart}"
-                      method="post" >
+                      method="post" th:if="${inStock}">
+                    <input type="hidden" name="amountInStock" id="amountInStock" th:value="${amountInStock}">
                 <div id="ItemAmountInputContainer">
+
                     <label class="form-label" for="itemAmount">Amount:</label>
                     <input type="number" class="form-control" id="itemAmount" th:default="1"
                            th:field="*{itemPageViewModel.itemAmount}" name="itemAmount" required/>
@@ -34,5 +38,6 @@
 
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/script/itemPage.js}"></script>
 </body>
 </html>

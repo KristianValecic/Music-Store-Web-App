@@ -95,6 +95,7 @@ public class ShoppingCartController {
     @PostMapping("/addItemToCart")
     public String addItemToCart(@ModelAttribute ItemPageViewModel itemPageViewModel,
                                 @RequestParam("itemAmount") Integer itemAmount, Model model) {
+
         itemPageViewModel.setItemAmount(itemAmount);
         ShoppingCartList.addItem(ShoppingCartItem.getItemFromItemPageVM(itemPageViewModel));
 

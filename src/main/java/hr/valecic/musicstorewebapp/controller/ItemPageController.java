@@ -16,11 +16,16 @@ public class ItemPageController {
 
     @GetMapping("/itemPage/{id}")
     public String getItemById(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("errorMsgForItemPage", "");
+
         ItemPageViewModel itemPageViewModel = new ItemPageViewModel();
         itemPageViewModel.setItem(itemService.getAllItemById(id));
         itemPageViewModel.setItemAmount(1);
 
         model.addAttribute("itemPageViewModel", itemPageViewModel);
+        System.out.println(itemPageViewModel.getItem().getAmountinstock() > 0);
+        model.addAttribute("inStock", itemPageViewModel.getItem().getAmountinstock() > 0);
+        model.addAttribute("amountInStock", itemPageViewModel.getItem().getAmountinstock());
 
         return "itemPage";
     }
