@@ -31,7 +31,8 @@ public class AppSecurityConfig {
                                 "/register", "/css/**", "/script/**", "/authenticate"
                                 , "/home", "/shoppingCart", "/itemPage/**",
                                 "/addItemToCart", "/filterHome",
-                                "/removeAmountFromCart/**", "/removeItemFromCart/**", "/clearShoppingCart")
+                                "/removeAmountFromCart/**", "/removeItemFromCart/**", "/clearShoppingCart",
+                                "/butItems", "/buyPage")
                         .permitAll()
                         .anyRequest().authenticated()
                 )

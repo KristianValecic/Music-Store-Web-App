@@ -19,4 +19,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findAllByMediatypeOrAlbum_Genretype(String mediaType, String albumGenreType);
     List<Item> findAllByMediatype(String mediaType);
+
 }

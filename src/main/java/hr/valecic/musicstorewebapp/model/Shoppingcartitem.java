@@ -27,7 +27,7 @@ public class Shoppingcartitem {
     @JoinColumn(name = "shoppingcartid", referencedColumnName = "idcart", nullable = false)
     private Shoppingcart shoppingcartByShoppingcartid;
 
-    public static Collection<Shoppingcartitem> convertFromShoppingCartItem(Collection<ShoppingCartItem> cartItemsListForPerson) {
+    public static Collection<Shoppingcartitem> convertToCollectionFromShoppingCartItems(Collection<ShoppingCartItem> cartItemsListForPerson) {
         Collection<Shoppingcartitem> tempList = new ArrayList<>();
         cartItemsListForPerson.forEach(shoppingCartItem -> {
             Shoppingcartitem shoppingcartitem = new Shoppingcartitem();
@@ -37,6 +37,14 @@ public class Shoppingcartitem {
             tempList.add(shoppingcartitem);
         });
         return tempList;
+    }
+
+    public static Shoppingcartitem convertFromShoppingCartItem(ShoppingCartItem shoppingCartItem) {
+        Shoppingcartitem shoppingcartitem = new Shoppingcartitem();
+        shoppingcartitem.setItemamount(shoppingCartItem.getItemAmount());
+        shoppingcartitem.setTotalprice(shoppingCartItem.getTotalPrice());
+        shoppingcartitem.setItemByItemid(shoppingCartItem.getItem());
+        return shoppingcartitem;
     }
 
     public Long getIdcartitem() {

@@ -57,6 +57,10 @@ public class ShoppingcartService {
         shoppingcartRepository.delete(shoppingcartByPerson);
     }
 
+    public Shoppingcart getLastCartItemsListForPerson(Person person) {
+        return shoppingcartRepository.findFirstByPersonOrderByIdcartDesc(person);
+    }
+
 //    public Collection<? extends Shoppingcartitem> getCartForPerson(Person person) {
 //        Shoppingcart shoppingcartByPersonid = shoppingcartRepository.getShoppingcartByPersonid(person.getIdperson());
 //        return shoppingcartItemRepository.getShoppingcartitemsByShoppingcartid(shoppingcartByPersonid.getIdcart());

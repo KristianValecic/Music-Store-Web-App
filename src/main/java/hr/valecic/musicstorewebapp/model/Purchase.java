@@ -19,6 +19,9 @@ public class Purchase {
     @ManyToOne
     @JoinColumn(name = "personid", referencedColumnName = "idperson", nullable = false)
     private Person personByPersonid;
+    @ManyToOne
+    @JoinColumn(name = "shoppingcartid", referencedColumnName = "idcart", nullable = false)
+    private Shoppingcart shoppingcartByShoppingcartid;
 
     public Long getIdpurchase() {
         return idpurchase;
@@ -74,5 +77,13 @@ public class Purchase {
 
     public void setPersonByPersonid(Person personByPersonid) {
         this.personByPersonid = personByPersonid;
+    }
+
+    public Shoppingcart getShoppingcartByShoppingcartid() {
+        return shoppingcartByShoppingcartid;
+    }
+
+    public void setShoppingcartByShoppingcartid(Shoppingcart shoppingcartByShoppingcartid) {
+        this.shoppingcartByShoppingcartid = shoppingcartByShoppingcartid;
     }
 }

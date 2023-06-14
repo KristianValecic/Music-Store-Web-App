@@ -2,10 +2,15 @@ package hr.valecic.musicstorewebapp.dal.service;
 
 import hr.valecic.musicstorewebapp.dal.repository.ItemRepository;
 import hr.valecic.musicstorewebapp.model.Item;
+import hr.valecic.musicstorewebapp.model.Shoppingcartitem;
+import hr.valecic.musicstorewebapp.model.shopping.ShoppingCartItem;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -63,5 +68,12 @@ public class ItemService {
 
     public Item getOne(Long id) {
         return itemRepository.findById(id).get();
+    }
+
+    public void subtractAmountOfBoughtItem(ShoppingCartItem shoppingCartItem) {
+        Item itemToUpdate = itemRepository.findItemByIditem(shoppingCartItem.getItem().getIditem());
+        itemToUpdate.setAmountinstock(itemToUpdate.getAmountinstock() - shoppingCartItem.getItemAmount());
+
+        itemRepository.save(itemToUpdate);
     }
 }

@@ -28,12 +28,20 @@ FUNDING_SOURCES.forEach(fundingSource => {
                 $.ajax({
                     url: '/buyItems',
                     type: 'GET',
+                    data:{
+                        paymentMethod: document.getElementById('cardPaymentMethod').value
+                    },
                     success: function (response) {
                         console.log('successfully baught items');
-                        window.location.href = "http://localhost:8080/buyItems";
+
+                        window.location.href = "http://localhost:8080/buyPage";
+                        // refreshWindow();
                     },
                     error: function (xhr, status, error) {
                         console.log('Error while buying items:', error);
+                        console.log('xhr:', xhr);
+                        console.log('status:', status);
+                        // refreshWindow();
                     },
                 });
             });

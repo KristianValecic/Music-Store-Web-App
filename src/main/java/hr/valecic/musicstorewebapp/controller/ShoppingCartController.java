@@ -43,7 +43,7 @@ public class ShoppingCartController {
                 //TODO: napravi adding method i onda to korsiti i ovdje
                 List<ShoppingCartItem> instanceBefore = ShoppingCartList.getInstance();//For control
 
-                Collection<Shoppingcartitem> shoppingcartitems = Shoppingcartitem.convertFromShoppingCartItem(ShoppingCartList.getInstance());
+                Collection<Shoppingcartitem> shoppingcartitems = Shoppingcartitem.convertToCollectionFromShoppingCartItems(ShoppingCartList.getInstance());
                 shoppingcartService.saveCart(person, shoppingcartitems);
             } else if (shoppingcartService.existsCartForPerson(person)) {
 //                got items list from db
@@ -107,7 +107,7 @@ public class ShoppingCartController {
     private void saveCartForLoggedInUSer(Model model) {
         if(userLoggedIn(model)){
             Person person = getPersonFromContext();
-            Collection<Shoppingcartitem> shoppingcartitems = Shoppingcartitem.convertFromShoppingCartItem(ShoppingCartList.getInstance());
+            Collection<Shoppingcartitem> shoppingcartitems = Shoppingcartitem.convertToCollectionFromShoppingCartItems(ShoppingCartList.getInstance());
             shoppingcartService.saveCart(person, shoppingcartitems);
         }
     }

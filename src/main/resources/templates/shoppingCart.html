@@ -57,9 +57,13 @@
             <div class="col-10" th:if="${authRole != ''}">
                 <form class="btn" th:action="@{/buyItems}">
                     <button class="btn btn-primary">Purchase with cash on delivery</button>
+                    <input type="hidden" name="paymentMethod"
+                           th:value="${T(hr.valecic.musicstorewebapp.model.enums.PaymentMethodType).CASH_ON_DELIVERY.toString()}">
                 </form>
                 <form class="btn" th:action="@{/buyItems}">
-                    <div id="paypal-button-container"></div>
+                    <div id="paypal-button-container" ></div>
+                    <input type="hidden" name="paymentMethod" id="cardPaymentMethod"
+                           th:value="${T(hr.valecic.musicstorewebapp.model.enums.PaymentMethodType).CARD.toString()}">
 <!--                    <button class="btn btn-primary">Purchase with cash on delivery</button>-->
                 </form>
             </div>

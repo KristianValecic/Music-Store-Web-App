@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ShoppingcartRepository extends JpaRepository<Shoppingcart,Long> {
     boolean existsShoppingcartByPerson(Person person);
     Shoppingcart getShoppingcartByPerson(Person person);
+    Shoppingcart findFirstByPersonOrderByIdcartDesc(Person person);
 }
