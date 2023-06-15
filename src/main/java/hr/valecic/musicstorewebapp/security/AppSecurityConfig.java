@@ -1,6 +1,7 @@
 package hr.valecic.musicstorewebapp.security;
 
 import hr.valecic.musicstorewebapp.dal.service.LoginhistoryService;
+import jakarta.servlet.Filter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +19,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @AllArgsConstructor
 @Configuration
 public class AppSecurityConfig {
-
-    //    private PersonService personService;
-//    private JwtRequestFilter jwtRequestFilter;
-//    private JwtAuthenticationProvider jwtAuthenticationProvider;
-//    private AuthenticationManager authManager;
-    private LoginhistoryService loginhistoryService;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -43,28 +38,18 @@ public class AppSecurityConfig {
                 .formLogin((form) -> form
                                 .loginPage("/login")
                                 .usernameParameter("email")
-//                        .loginProcessingUrl("/authenticate")
                                 .defaultSuccessUrl("/home", true)
                                 .failureUrl("/login-error")
                                 .permitAll()
-                ).addFilterAfter(new LoginFilter(loginhistoryService), OncePerRequestFilter.class)
-//                .addFilterBefore(JwtRequestFilter, OncePerRequestFilter.class)
-                .logout((logout) -> logout.permitAll())
-//                .httpBasic(withDefaults())
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                .httpBasic();
-        ;
+                )
+                .logout((logout) -> logout.permitAll());
         return http.build();
     }
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http
-//                    .authenticationProvider(jwtAuthenticationProvider)
-//                        .userDetailsService(personService)
                 .getSharedObject(AuthenticationManagerBuilder.class);
-        //authenticationManagerBuilder.authenticationProvider(authProvider);
         return authenticationManagerBuilder.build();
     }
 

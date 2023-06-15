@@ -1,9 +1,9 @@
 package hr.valecic.musicstorewebapp.model;
 
-import hr.valecic.musicstorewebapp.model.dto.PersonDTO;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import hr.valecic.musicstorewebapp.model.Roles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,15 +38,15 @@ public class Person implements UserDetails {
     @JoinColumn(name = "roleid", referencedColumnName = "idrole", nullable = false)
     private Roles role;
 
-    public static Person getPersonFromDto(PersonDTO personDTO) {
-        Person temp = new Person();
-        temp.setFirstname(personDTO.getFirstName());
-        temp.setLastname(personDTO.getLastName());
-        temp.setAdress(personDTO.getAddress());
-        temp.setEmail(personDTO.getEmail());
-        temp.setPassword(personDTO.getPassword());
-        return temp;
-    }
+//    public static Person getPersonFromDto(PersonDTO personDTO) {
+//        Person temp = new Person();
+//        temp.setFirstname(personDTO.getFirstName());
+//        temp.setLastname(personDTO.getLastName());
+//        temp.setAdress(personDTO.getAddress());
+//        temp.setEmail(personDTO.getEmail());
+//        temp.setPassword(personDTO.getPassword());
+//        return temp;
+//    }
 //    @OneToMany(mappedBy = "personByPersonid")
 //    private Collection<Purchase> purchasesByIdperson;
 //    @OneToMany(mappedBy = "personByPersonid")
