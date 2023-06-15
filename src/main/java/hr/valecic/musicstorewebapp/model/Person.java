@@ -37,10 +37,6 @@ public class Person implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "roleid", referencedColumnName = "idrole", nullable = false)
     private Roles role;
-//    @OneToMany(mappedBy = "personByPersonid")
-//    private Collection<Purchase> purchasesByIdperson;
-//    @OneToMany(mappedBy = "personByPersonid")
-//    private Collection<Shoppingcart> shoppingcartsByIdperson;
 
     public static Person getPersonFromDto(PersonDTO personDTO) {
         Person temp = new Person();
@@ -51,10 +47,15 @@ public class Person implements UserDetails {
         temp.setPassword(personDTO.getPassword());
         return temp;
     }
+//    @OneToMany(mappedBy = "personByPersonid")
+//    private Collection<Purchase> purchasesByIdperson;
+//    @OneToMany(mappedBy = "personByPersonid")
+//    private Collection<Shoppingcart> shoppingcartsByIdperson;
 
     public Long getIdperson() {
         return idperson;
     }
+
 
     public void setIdperson(Long idperson) {
         this.idperson = idperson;

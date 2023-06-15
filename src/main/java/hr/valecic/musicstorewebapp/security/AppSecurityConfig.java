@@ -1,5 +1,6 @@
 package hr.valecic.musicstorewebapp.security;
 
+import hr.valecic.musicstorewebapp.dal.service.LoginhistoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 
 @EnableWebSecurity
@@ -21,6 +23,8 @@ public class AppSecurityConfig {
 //    private JwtRequestFilter jwtRequestFilter;
 //    private JwtAuthenticationProvider jwtAuthenticationProvider;
 //    private AuthenticationManager authManager;
+    private LoginhistoryService loginhistoryService;
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -43,8 +47,8 @@ public class AppSecurityConfig {
                                 .defaultSuccessUrl("/home", true)
                                 .failureUrl("/login-error")
                                 .permitAll()
-                )
-//                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                ).addFilterAfter(new LoginFilter(loginhistoryService), OncePerRequestFilter.class)
+//                .addFilterBefore(JwtRequestFilter, OncePerRequestFilter.class)
                 .logout((logout) -> logout.permitAll())
 //                .httpBasic(withDefaults())
 //                .sessionManagement()
