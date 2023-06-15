@@ -2,6 +2,7 @@ package hr.valecic.musicstorewebapp.security;
 
 import java.io.IOException;
 
+import hr.valecic.musicstorewebapp.Utilities.TimeUtils;
 import hr.valecic.musicstorewebapp.dal.service.LoginhistoryService;
 import hr.valecic.musicstorewebapp.model.Loginhistory;
 import hr.valecic.musicstorewebapp.model.Person;
@@ -17,12 +18,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import hr.valecic.musicstorewebapp.model.CustomPersonDetails;
+import hr.valecic.musicstorewebapp.dal.service.PersonService;
 
 @Component
 @AllArgsConstructor
 @Order(1)
 public class LoginFilter extends OncePerRequestFilter {
     private LoginhistoryService loginhistoryService;
+    private PersonService personService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -32,7 +35,7 @@ public class LoginFilter extends OncePerRequestFilter {
                 authentication.getPrincipal() != AuthType.ANONYMOUS_USER.value &&
                 !ifAdmin(authentication)) {
             // User is already authenticated, no need to execute filter logic
-            insertLoginToDb();
+            insertLoginToDb(authentication, request);
             chain.doFilter(request, response);
             return;
         }
@@ -50,12 +53,16 @@ public class LoginFilter extends OncePerRequestFilter {
         return false;
     }
 
-    private void insertLoginToDb() {
+    private void insertLoginToDb(Authentication authentication, HttpServletRequest request) {
         Loginhistory loginhistoryEntry = new Loginhistory();
-        System.out.println("insertLoginToDb");
-//        loginhistoryEntry.setPersonByPersonid();
-//        loginhistoryEntry.setIpadress();
-//        loginhistoryEntry.setTimeoflogin();
+        String email = ((CustomPersonDetails) authentication.getPrincipal()).getUsername();
+        Person person = personService.getPersonByEmail(email).get();
+
+        loginhistoryEntry.setPerson(person);
+        loginhistoryEntry.setIpadress(request.getRemoteAddr());
+        loginhistoryEntry.setTimeoflogin(TimeUtils.getCurrentTime());
+
+        loginhistoryService.saveLogin(loginhistoryEntry);
     }
 
     @Override

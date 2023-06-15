@@ -81,11 +81,11 @@ public class Loginhistory {
         return result;
     }
 
-    public Person getPersonByPersonid() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPersonByPersonid(Person personByPersonid) {
+    public void setPerson(Person personByPersonid) {
         this.person = personByPersonid;
     }
 }
