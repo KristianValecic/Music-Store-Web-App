@@ -41,6 +41,31 @@
             </tr>
             </tbody>
         </table>
+
+        <h1>User purchase history</h1>
+        <table id="usersPurchaseHistoryTable" class="table">
+            <thead>
+            <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Name</th>
+                <th scope="col">IP Addres</th>
+                <th scope="col">Time of login</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${purchaseHistoryList.empty}">
+                <td colspan="7"> No Items in cart.</td>
+            </tr>
+            <tr th:each="purchaseRecord : ${purchaseHistoryList}">
+                <!--        <td><span th:text="${cartItem}"> Artist name </span></td>-->
+                <td><span th:text="${purchaseRecord.person.email}"> Email </span></td>
+                <td>
+                    <span th:text="${purchaseRecord.timeofpurchase}"> Name </span>
+                </td>
+                <td><span th:text="${purchaseRecord.paymentmethod}"> Name </span></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </section>
 

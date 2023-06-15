@@ -177,3 +177,7 @@ html {
 .modal-dialog {
     width: 100%;
 }
+/*Profile*/
+.purchaseView:hover{
+    background-color: grey;
+}

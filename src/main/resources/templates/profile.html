@@ -41,7 +41,8 @@
             </div>
             <div class="row mt-5">
 
-                <form class="btn" th:action="@{/editProfile}" method="get" th:if="${authRole != T(hr.valecic.musicstorewebapp.model.enums.RoleEnum).ADMIN_ROLE.toString()}">
+                <form class="btn" th:action="@{/editProfile}" method="get"
+                      th:if="${authRole != T(hr.valecic.musicstorewebapp.model.enums.RoleEnum).ADMIN_ROLE.toString()}">
                     <input class="btn btn-primary" type="submit" value="Edit"/>
                 </form>
                 <form class="btn" th:action="@{/logout}" method="post">
@@ -49,10 +50,48 @@
                 </form>
             </div>
         </div>
+        <h1>User purchase history</h1>
+        <table id="usersPurchaseHistoryTable" class="table">
+            <thead>
+            <tr>
+                <th scope="col">Time of Pruchase</th>
+                <th scope="col">Payment method</th>
+                <th scope="col">Amount of purchased items</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${purchaseHistoryList.empty}">
+                <td colspan="7"> No Items in cart.</td>
+            </tr>
+
+            <tr th:each="purchaseRecord : ${purchaseHistoryList}"
+                class="purchaseView" th:data-href="'/purchaseView/'+${purchaseRecord.idpurchase}">
+                <!--                <a th:href="'/purchaseView/'+${purchaseRecord.idpurchase}">-->
+
+                <!--                <input type="hidden" th:value="${purchaseRecord.idpurchase}">-->
+                <td><span th:text="${purchaseRecord.timeofpurchase}"> Name </span></td>
+                <td><span th:text="${purchaseRecord.paymentmethod}"> Name </span></td>
+                <td>
+                    <span th:text="${purchaseRecord.shoppingcartByShoppingcartid.shoppingcartitemsByIdcart.size}">
+                    Name
+                </span>
+                </td>
+                <td>
+                    <form id="btnOpenPurchaseViewPage"
+                          th:action="@{'/purchaseView/'+${purchaseRecord.idpurchase}}" method="get">
+<!--                        <input type="hidden" name="_method" value="delete"/>-->
+                        <button class="btn btn-outline-primary">Details</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </section>
 
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/script/profile.js}"></script>
 </body>
 </html>

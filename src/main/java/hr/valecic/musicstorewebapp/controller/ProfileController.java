@@ -1,8 +1,10 @@
 package hr.valecic.musicstorewebapp.controller;
 
 import hr.valecic.musicstorewebapp.dal.service.PersonService;
+import hr.valecic.musicstorewebapp.dal.service.PurchaseService;
 import hr.valecic.musicstorewebapp.model.CustomPersonDetails;
 import hr.valecic.musicstorewebapp.model.Person;
+import hr.valecic.musicstorewebapp.model.Purchase;
 import hr.valecic.musicstorewebapp.model.shopping.ShoppingCartList;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -12,17 +14,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @AllArgsConstructor
 @SessionAttributes({"authRole"})
 public class ProfileController {
     private PersonService personService;
     private PasswordEncoder passwordEncoder;
+    private PurchaseService purchaseService;
 
     @GetMapping("/profile")
     public String openProfilePage(Model model) {
         CustomPersonDetails principal = (CustomPersonDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("person", personService.getPersonByEmail(principal.getUsername()).get());
+        Person person = personService.getPersonByEmail(principal.getUsername()).get();
+        List<Purchase> purchaseHistoryList = purchaseService.getAllForPerson(person);
+
+        model.addAttribute("person", person);
+        model.addAttribute("purchaseHistoryList", purchaseHistoryList);
 
         return "profile";
     }
@@ -33,6 +42,13 @@ public class ProfileController {
         model.addAttribute("person", personService.getPersonByEmail(principal.getUsername()).get());
 
         return "editProfile";
+    }
+    @GetMapping("/purchaseView/{idPurchase}")
+    public String openEditProfilePage(@PathVariable("idPurchase") Long idPurchase, Model model) {
+//        CustomPersonDetails principal = (CustomPersonDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("purchase", purchaseService.getPurchaseByID(idPurchase));
+//    TODO: make purcahse html
+        return "purchaseView";
     }
 
     @PostMapping("/savePersonChanges")
