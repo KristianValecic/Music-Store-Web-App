@@ -46,8 +46,11 @@ public class ProfileController {
     @GetMapping("/purchaseView/{idPurchase}")
     public String openEditProfilePage(@PathVariable("idPurchase") Long idPurchase, Model model) {
 //        CustomPersonDetails principal = (CustomPersonDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("purchase", purchaseService.getPurchaseByID(idPurchase));
-//    TODO: make purcahse html
+        Purchase purchase = purchaseService.getPurchaseByID(idPurchase);
+        model.addAttribute("purchase", purchase);
+        model.addAttribute("shoppingCart", purchase.getShoppingcartByShoppingcartid());
+        model.addAttribute("shoppingCartItemsList", purchase.getShoppingcartByShoppingcartid().getShoppingcartitemsByIdcart());
+
         return "purchaseView";
     }
 
