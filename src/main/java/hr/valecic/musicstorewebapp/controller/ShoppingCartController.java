@@ -41,7 +41,7 @@ public class ShoppingCartController {
 //                if cart doesnt exist in db and isn't empty
                 Collection<Shoppingcartitem> shoppingcartitems = Shoppingcartitem.convertToCollectionFromShoppingCartItems(ShoppingCartList.getInstance());
                 shoppingcartService.saveCart(person, shoppingcartitems);
-            } else if (!shoppingcartService.existsUnpurchasedCartForPerson(person)) {
+            } else if (shoppingcartService.existsCartForPerson(person) && !shoppingcartService.existsUnpurchasedCartForPerson(person)) {
 //                got items list from db
                 loadCartFromDb(person);
 //                if (isAddingItemsToCartFLAG){
@@ -106,6 +106,9 @@ public class ShoppingCartController {
         if(userLoggedIn(model)){
             Person person = getPersonFromContext();
             Collection<Shoppingcartitem> shoppingcartitems = Shoppingcartitem.convertToCollectionFromShoppingCartItems(ShoppingCartList.getInstance());
+           shoppingcartitems.forEach(i -> {
+               System.out.println(i.getItemByItemid().getAlbum().getAlbumname());
+           });
             shoppingcartService.saveCart(person, shoppingcartitems);
         }
     }
