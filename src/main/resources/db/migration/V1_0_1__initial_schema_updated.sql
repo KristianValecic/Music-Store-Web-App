@@ -56,6 +56,7 @@ Create table if not exists musicstoreschema.item (
 CREATE TABLE if not exists musicstoreschema.shoppingcart (
     idcart serial primary key,
     creationtime timestamp not null,
+    ispurchased boolean not null,
     personid int references musicstoreschema.person(idperson) not null
 );
 CREATE TABLE if not exists musicstoreschema.shoppingcartitem (

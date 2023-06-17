@@ -86,4 +86,5 @@ public class Purchase {
     public void setShoppingcartByShoppingcartid(Shoppingcart shoppingcartByShoppingcartid) {
         this.shoppingcartByShoppingcartid = shoppingcartByShoppingcartid;
     }
+
 }

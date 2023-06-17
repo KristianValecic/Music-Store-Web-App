@@ -22,6 +22,16 @@ public class Shoppingcart {
 //    @Basic
 //    @Column(name = "personid", nullable = false)
 //    private Long personid;
+//    public Long getPersonid() {
+//        return personid;
+//    }
+//
+//    public void setPersonid(Long personid) {
+//        this.personid = personid;
+//    }
+    @Basic
+    @Column(name = "ispurchased")
+    private Boolean ispurchased;
 
     public Long getIdcart() {
         return idcart;
@@ -75,11 +85,12 @@ public class Shoppingcart {
         this.shoppingcartitemsByIdcart = shoppingcartitemsByIdcart;
     }
 
-//    public Long getPersonid() {
-//        return personid;
-//    }
-//
-//    public void setPersonid(Long personid) {
-//        this.personid = personid;
-//    }
+    public Boolean getIspurchased() {
+        return ispurchased;
+    }
+
+    public void setIspurchased(Boolean ispurchased) {
+        this.ispurchased = ispurchased;
+    }
+
 }

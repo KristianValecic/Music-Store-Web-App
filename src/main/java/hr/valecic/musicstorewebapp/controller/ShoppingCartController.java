@@ -37,15 +37,11 @@ public class ShoppingCartController {
         if(userLoggedIn(model)){
            Person person = getPersonFromContext();
 
-
             if (!shoppingcartService.existsCartForPerson(person) && !ShoppingCartList.getInstance().isEmpty()) {
 //                if cart doesnt exist in db and isn't empty
-                //TODO: napravi adding method i onda to korsiti i ovdje
-                List<ShoppingCartItem> instanceBefore = ShoppingCartList.getInstance();//For control
-
                 Collection<Shoppingcartitem> shoppingcartitems = Shoppingcartitem.convertToCollectionFromShoppingCartItems(ShoppingCartList.getInstance());
                 shoppingcartService.saveCart(person, shoppingcartitems);
-            } else if (shoppingcartService.existsCartForPerson(person)) {
+            } else if (!shoppingcartService.existsUnpurchasedCartForPerson(person)) {
 //                got items list from db
                 loadCartFromDb(person);
 //                if (isAddingItemsToCartFLAG){
@@ -67,16 +63,17 @@ public class ShoppingCartController {
     }
 
     private void loadCartFromDb(Person person) {
-        Collection<Shoppingcartitem> cartItemsListForPerson = shoppingcartService.getCartItemsListForPerson(person);
+        Collection<Shoppingcartitem> cartItemsListForPerson =
+                shoppingcartService.getLastCartItemsListForPerson(person).getShoppingcartitemsByIdcart();
         Collection<ShoppingCartItem> tempList = ShoppingCartList.convertFromShoppingcartitem(cartItemsListForPerson);
 
-        List<ShoppingCartItem> instanceBefore = new ArrayList<>(ShoppingCartList.getInstance());//For control
+//        List<ShoppingCartItem> instanceBefore = new ArrayList<>(ShoppingCartList.getInstance());//For control
 
         ShoppingCartList.getInstance().clear();
        // tempList.forEach(ShoppingCartList::addItem);//
         ShoppingCartList.getInstance().addAll(tempList);
 
-        List<ShoppingCartItem> instanceAFTERR = new ArrayList<>(ShoppingCartList.getInstance());//For control
+//        List<ShoppingCartItem> instanceAFTERR = new ArrayList<>(ShoppingCartList.getInstance());//For control
 
     }
 

@@ -23,7 +23,7 @@ spring:
         default_schema: ${spring.datasource.db-schema}
         temp:
           use_jdbc_metadata_defaults: false
-        dialect: org.hibernate.dialect.PostgreSQL94Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         types.print.banner: false
     hibernate:
       ddl-auto: none

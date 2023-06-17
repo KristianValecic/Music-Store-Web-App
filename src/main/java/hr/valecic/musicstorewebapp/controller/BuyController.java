@@ -65,8 +65,13 @@ public class BuyController {
         purchase.setPersonByPersonid(person);
 
         Shoppingcart lastCartItemsListForPerson = shoppingcartService.getLastCartItemsListForPerson(person);
-        purchase.setShoppingcartByShoppingcartid(lastCartItemsListForPerson);
-        purchaseService.savePurchase(purchase);
+        shoppingcartService.setCartPurchased(lastCartItemsListForPerson);
+//        purchase.setShoppingcartByShoppingcartid(lastCartItemsListForPerson);
+        System.out.println(lastCartItemsListForPerson);
+//        purchaseService.savePurchase(purchase);
+
+        System.out.println("From purchase: "+purchase.getShoppingcartByShoppingcartid());
+
     }
 
 

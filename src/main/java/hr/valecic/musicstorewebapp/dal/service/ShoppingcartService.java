@@ -29,6 +29,7 @@ public class ShoppingcartService {
         shoppingcart.setPersonByPersonid(person);
         shoppingcart.setCreationtime(Timestamp.valueOf(LocalDateTime.now()));
         shoppingcart.setShoppingcartitemsByIdcart(shoppingCartItemsList);
+        shoppingcart.setIspurchased(false);
 
         Collection<Shoppingcartitem> shoppingCartItemsListCOPY = new ArrayList<>(shoppingCartItemsList);
         shoppingcartRepository.save(shoppingcart);
@@ -42,7 +43,7 @@ public class ShoppingcartService {
     }
 
     public boolean existsCartForPerson(Person person) {
-        boolean b = shoppingcartRepository.existsShoppingcartByPerson(person);
+//        boolean b = shoppingcartRepository.existsShoppingcartByPerson(person);
         return shoppingcartRepository.existsShoppingcartByPerson(person);
 //        return true;
     }
@@ -59,6 +60,18 @@ public class ShoppingcartService {
 
     public Shoppingcart getLastCartItemsListForPerson(Person person) {
         return shoppingcartRepository.findFirstByPersonOrderByIdcartDesc(person);
+    }
+
+    public void setCartPurchased(Shoppingcart shoppingcart) {
+        shoppingcart.setIspurchased(true);
+        shoppingcartRepository.save(shoppingcart);
+    }
+
+    public boolean existsUnpurchasedCartForPerson(Person person) {
+//        boolean b = shoppingcartRepository.existsShoppingcartByPerson(person);
+        Shoppingcart shoppingcart = shoppingcartRepository.getShoppingcartByPerson(person);
+        System.out.println("is purchased: " + shoppingcart.getIspurchased());
+        return shoppingcart.getIspurchased();
     }
 
 //    public Collection<? extends Shoppingcartitem> getCartForPerson(Person person) {
