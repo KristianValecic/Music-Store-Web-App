@@ -1,5 +1,6 @@
 package hr.valecic.musicstorewebapp.controller;
 
+import hr.valecic.musicstorewebapp.Utilities.TimeUtils;
 import hr.valecic.musicstorewebapp.dal.service.ItemService;
 import hr.valecic.musicstorewebapp.dal.service.PersonService;
 import hr.valecic.musicstorewebapp.dal.service.PurchaseService;
@@ -61,7 +62,7 @@ public class BuyController {
 
         Purchase purchase = new Purchase();
         purchase.setPaymentmethod(inputType);
-        purchase.setTimeofpurchase(getCurrentTime());
+        purchase.setTimeofpurchase(TimeUtils.getCurrentTime());
         purchase.setPersonByPersonid(person);
 
         Shoppingcart lastCartItemsListForPerson = shoppingcartService.getLastCartItemsListForPerson(person);
@@ -80,11 +81,4 @@ public class BuyController {
 
         return "buy";
     }
-    private Timestamp getCurrentTime() {
-        Calendar calendar = Calendar.getInstance();
-        Date now = calendar.getTime();
-
-        return new java.sql.Timestamp(now.getTime());
     }
-
-}

@@ -17,9 +17,12 @@ public class Loginhistory {
     @Basic
     @Column(name = "timeoflogin", nullable = false)
     private Timestamp timeoflogin;
-    @Basic
-    @Column(name = "personid", nullable = false)
-    private Integer personid;
+//    @Basic
+//    @Column(name = "personid", nullable = true)
+//    private Integer personid;
+    @ManyToOne
+    @JoinColumn(name = "personid", referencedColumnName = "idperson", nullable = false)
+    private Person person;
 
     public Long getIdloginhistory() {
         return idloginhistory;
@@ -45,13 +48,13 @@ public class Loginhistory {
         this.timeoflogin = timeoflogin;
     }
 
-    public Integer getPersonid() {
-        return personid;
-    }
+//    public Integer getPersonid() {
+//        return personid;
+//    }
 
-    public void setPersonid(Integer personid) {
-        this.personid = personid;
-    }
+//    public void setPersonid(Integer personid) {
+//        this.personid = personid;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -64,7 +67,7 @@ public class Loginhistory {
             return false;
         if (ipadress != null ? !ipadress.equals(that.ipadress) : that.ipadress != null) return false;
         if (timeoflogin != null ? !timeoflogin.equals(that.timeoflogin) : that.timeoflogin != null) return false;
-        if (personid != null ? !personid.equals(that.personid) : that.personid != null) return false;
+//        if (personid != null ? !personid.equals(that.personid) : that.personid != null) return false;
 
         return true;
     }
@@ -74,7 +77,15 @@ public class Loginhistory {
         int result = idloginhistory != null ? idloginhistory.hashCode() : 0;
         result = 31 * result + (ipadress != null ? ipadress.hashCode() : 0);
         result = 31 * result + (timeoflogin != null ? timeoflogin.hashCode() : 0);
-        result = 31 * result + (personid != null ? personid.hashCode() : 0);
+//        result = 31 * result + (personid != null ? personid.hashCode() : 0);
         return result;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person personByPersonid) {
+        this.person = personByPersonid;
     }
 }
