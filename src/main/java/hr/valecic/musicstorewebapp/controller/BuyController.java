@@ -64,14 +64,15 @@ public class BuyController {
         purchase.setPaymentmethod(inputType);
         purchase.setTimeofpurchase(TimeUtils.getCurrentTime());
         purchase.setPersonByPersonid(person);
+//        System.out.println(purchase);
 
         Shoppingcart lastCartItemsListForPerson = shoppingcartService.getLastCartItemsListForPerson(person);
         shoppingcartService.setCartPurchased(lastCartItemsListForPerson);
-//        purchase.setShoppingcartByShoppingcartid(lastCartItemsListForPerson);
-        System.out.println(lastCartItemsListForPerson);
-//        purchaseService.savePurchase(purchase);
+        purchase.setShoppingcartByShoppingcartid(lastCartItemsListForPerson);
+//        System.out.println(purchase);
+        purchaseService.savePurchase(purchase);
 
-        System.out.println("From purchase: "+purchase.getShoppingcartByShoppingcartid());
+//        System.out.println("From purchase: "+purchase.getShoppingcartByShoppingcartid());
 
     }
 

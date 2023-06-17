@@ -24,7 +24,11 @@ public class ShoppingcartService {
     public void saveCart(Person person, Collection<Shoppingcartitem> shoppingCartItemsList) {
         Shoppingcart shoppingcart = new Shoppingcart();
         if (shoppingcartRepository.existsShoppingcartByPerson(person)) {
-            shoppingcart = shoppingcartRepository.getShoppingcartByPerson(person);
+            if (!shoppingcartRepository.findFirstByPersonOrderByIdcartDesc(person).getIspurchased()){
+//                gets most recent (last) shoppingcart by that person
+                System.out.println("got to findFirstByPersonOrderByIdcartDesc");
+                shoppingcart = shoppingcartRepository.findFirstByPersonOrderByIdcartDesc(person);
+            }
         }
         shoppingcart.setPersonByPersonid(person);
         shoppingcart.setCreationtime(Timestamp.valueOf(LocalDateTime.now()));
@@ -38,7 +42,8 @@ public class ShoppingcartService {
                 shoppingCartItemsListCOPY) {
             i.setShoppingcartByShoppingcartid(shoppingcart);
         }
-        shoppingcartItemRepository.deleteShoppingcartitemsByShoppingcartByShoppingcartid(shoppingcart);
+//        System.out.println("got to findFirstByPersonOrderByIdcartDesc");
+//        shoppingcartItemRepository.deleteShoppingcartitemsByShoppingcartByShoppingcartid(shoppingcart);
         shoppingcartItemRepository.saveAll(shoppingCartItemsListCOPY);
     }
 
@@ -49,11 +54,11 @@ public class ShoppingcartService {
     }
 
     public Collection<Shoppingcartitem> getCartItemsListForPerson(Person person) {
-        return shoppingcartRepository.getShoppingcartByPerson(person).getShoppingcartitemsByIdcart();
+        return shoppingcartRepository.findFirstByPersonOrderByIdcartDesc(person).getShoppingcartitemsByIdcart();
     }
 
     public void deleteShoppingCartForPerson(Person person) {
-        Shoppingcart shoppingcartByPerson = shoppingcartRepository.getShoppingcartByPerson(person);
+        Shoppingcart shoppingcartByPerson = shoppingcartRepository.findFirstByPersonOrderByIdcartDesc(person);
         shoppingcartItemRepository.deleteAllInBatch(shoppingcartItemRepository.getShoppingcartitemsByShoppingcartByShoppingcartid(shoppingcartByPerson));
         shoppingcartRepository.delete(shoppingcartByPerson);
     }
@@ -69,7 +74,7 @@ public class ShoppingcartService {
 
     public boolean existsUnpurchasedCartForPerson(Person person) {
 //        boolean b = shoppingcartRepository.existsShoppingcartByPerson(person);
-        Shoppingcart shoppingcart = shoppingcartRepository.getShoppingcartByPerson(person);
+        Shoppingcart shoppingcart = shoppingcartRepository.findFirstByPersonOrderByIdcartDesc(person);
         System.out.println("is purchased: " + shoppingcart.getIspurchased());
         return shoppingcart.getIspurchased();
     }

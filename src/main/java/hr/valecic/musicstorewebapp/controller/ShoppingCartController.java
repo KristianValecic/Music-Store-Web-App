@@ -148,12 +148,12 @@ public class ShoppingCartController {
     }
 
     private void deleteItemIfNoneLeft() {
-//TODO
         if (ShoppingCartList.getInstance().isEmpty()){
             CustomPersonDetails principal = (CustomPersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Person person = personService.getPersonByEmail(principal.getUsername()).get();
+            System.out.println("deleteIfEmptyCart");
 
-            //delete item
+            shoppingcartService.deleteShoppingCartForPerson(person);
         }
     }
 

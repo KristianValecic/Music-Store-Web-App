@@ -87,4 +87,14 @@ public class Purchase {
         this.shoppingcartByShoppingcartid = shoppingcartByShoppingcartid;
     }
 
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "idpurchase=" + idpurchase +
+                ", timeofpurchase=" + timeofpurchase +
+                ", paymentmethod='" + paymentmethod + '\'' +
+                ", personByPersonid=" + personByPersonid +
+                ", shoppingcartByShoppingcartid=" + shoppingcartByShoppingcartid +
+                '}';
+    }
 }

@@ -25,6 +25,7 @@ spring:
           use_jdbc_metadata_defaults: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
         types.print.banner: false
+#        open-in-view: false
     hibernate:
       ddl-auto: none
     show-sql: false
