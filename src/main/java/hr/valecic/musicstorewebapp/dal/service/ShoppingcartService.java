@@ -23,13 +23,13 @@ public class ShoppingcartService {
     @Transactional
     public void saveCart(Person person, Collection<Shoppingcartitem> shoppingCartItemsList) {
         Shoppingcart shoppingcart = new Shoppingcart();
-        if (shoppingcartRepository.existsShoppingcartByPerson(person)) {
+//        if (shoppingcartRepository.existsShoppingcartByPerson(person)) {
 //            if (!shoppingcartRepository.findFirstByPersonOrderByIdcartDesc(person).getIspurchased()){
 ////                gets most recent (last) shoppingcart by that person
 //                System.out.println("got to findFirstByPersonOrderByIdcartDesc");
 //                shoppingcart = shoppingcartRepository.findFirstByPersonOrderByIdcartDesc(person);
 //            }
-        }
+//        }
         shoppingcart.setPersonByPersonid(person);
         shoppingcart.setCreationtime(Timestamp.valueOf(LocalDateTime.now()));
         shoppingcart.setShoppingcartitemsByIdcart(shoppingCartItemsList);

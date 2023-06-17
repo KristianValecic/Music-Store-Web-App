@@ -15,7 +15,7 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 @SessionAttributes({"authRole"})
-public class UsersController {
+    public class UsersController {
     private LoginhistoryService loginhistoryService;
     private PurchaseService purchaseService;
     @GetMapping("/users")

@@ -7,9 +7,9 @@
 
 <section class="mainSection">
     <div class="mainContainer">
-        <form class="btn" action="/profile" method="get">
-            <button class="btn btn-outline-primary">Back</button>
-        </form>
+<!--        <form class="btn" action="/profile" method="get">-->
+            <button class="btn btn-outline-primary" onclick="goBack()">Back</button>
+<!--        </form>-->
 
         <table id="usersPurchaseHistoryTable" class="table">
             <thead>
@@ -45,5 +45,6 @@
 </section>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/script/purchaseView.js}"></script>
 </body>
 </html>
