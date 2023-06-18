@@ -181,3 +181,8 @@ html {
 .purchaseView:hover{
     background-color: grey;
 }
+
+/*Users*/
+#filterPurchaseHistory{
+    margin-top: 20px;
+}

@@ -19,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @AllArgsConstructor
 @Configuration
 public class AppSecurityConfig {
+//    private JwtAuthenticationProvider authenticationProvider;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,11 +37,11 @@ public class AppSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                                .loginPage("/login")
-                                .usernameParameter("email")
-                                .defaultSuccessUrl("/home", true)
-                                .failureUrl("/login-error")
-                                .permitAll()
+                        .loginPage("/login")
+                        .usernameParameter("email")
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/login-error")
+                        .permitAll()
                 )
                 .logout((logout) -> logout.permitAll());
         return http.build();
@@ -50,6 +51,7 @@ public class AppSecurityConfig {
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http
                 .getSharedObject(AuthenticationManagerBuilder.class);
+//        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
         return authenticationManagerBuilder.build();
     }
 

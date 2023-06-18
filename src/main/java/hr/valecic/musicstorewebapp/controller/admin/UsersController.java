@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
@@ -28,4 +29,15 @@ import java.util.List;
         return "users";
     }
 
+    @GetMapping("/filterPurchaseHistory")
+    public String filterPurchaseHistory(@RequestParam("fromDate")String fromDate, @RequestParam("toDate")String toDate, Model model) {
+        List<Loginhistory> loggedUsersList = loginhistoryService.getAll();
+        List<Purchase> purchaseHistoryList = purchaseService.getFilteredByDate(fromDate, toDate);
+
+        System.out.println("filterPurchaseHistory");
+
+        model.addAttribute("loggedUsersList", loggedUsersList);
+        model.addAttribute("purchaseHistoryList", purchaseHistoryList);
+        return "users";
+    }
 }

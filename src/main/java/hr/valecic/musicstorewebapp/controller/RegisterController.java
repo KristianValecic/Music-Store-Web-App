@@ -2,14 +2,17 @@ package hr.valecic.musicstorewebapp.controller;
 
 import hr.valecic.musicstorewebapp.dal.service.PersonService;
 import hr.valecic.musicstorewebapp.dal.service.RolesService;
+import hr.valecic.musicstorewebapp.event.CustomSpringEvent;
 import hr.valecic.musicstorewebapp.model.CustomPersonDetails;
 import hr.valecic.musicstorewebapp.model.Person;
 import hr.valecic.musicstorewebapp.model.enums.RoleEnum;
+import hr.valecic.musicstorewebapp.publisher.CustomSpringEventPublisher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -33,6 +36,7 @@ public class RegisterController {
     private RolesService roleService;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
+    private CustomSpringEventPublisher customSpringEventPublisher;
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -42,6 +46,12 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String saveOsoba(@ModelAttribute("newPerson") @Valid Person person, HttpServletRequest request, Model model) {
+        try {
+            customSpringEventPublisher.publishCustomEvent(person.getEmail());
+        } catch (BadCredentialsException e){
+            model.addAttribute("ErrorMessage", e.getMessage());
+            return "register";
+        }
 
         Optional<Person> personWithEmail = personService.getPersonByEmail(person.getEmail());
 
@@ -49,6 +59,7 @@ public class RegisterController {
 
         if (!personWithEmail.isPresent()){
 //            Person person = Person.getPersonFromDto(personDTO);
+
             person.setRole(roleService.getRoleByRoleName(RoleEnum.USER_ROLE.toString()));
             person.setPassword(passwordEncoder.encode(person.getPassword()));
             personService.savePerson(person);

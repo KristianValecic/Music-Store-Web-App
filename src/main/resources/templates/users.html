@@ -6,16 +6,6 @@
 <div th:replace="~{fragments/navigation :: navigation}"></div>
 <section class="mainSection">
     <div class="mainContainer">
-        <ul>
-            <li>povijesni pregled podataka o tome tko se, kada
-                i sa koje adrese ulogirao (Filteri)
-            </li>
-            <li>povijesni pregled kupnji, za sve
-                kupce, s istim informacijama. Omogućiti jednostavne filtere za pretragu po
-                kupcu i vremenskom periodu kupnje
-            </li>
-        </ul>
-
         <h1>User login history</h1>
         <table id="usersLoginHistoryTable" class="table">
             <thead>
@@ -41,11 +31,21 @@
             </tr>
             </tbody>
         </table>
-
+        <!--        TODO add labels and fix functionality -->
         <h1>User purchase history</h1>
+        <form th:action="@{/filterPurchaseHistory}" method="get" id="filterPurchaseHistory">
+
+            <label class="labels">From</label>
+            <input type="date" class="form-control" id="fromDate" name="fromDate">
+
+            <label class="labels">To</label>
+            <input type="date" class="form-control" id="toDate" name="toDate">
+            <button class="btn btn-primary">Filter date</button>
+        </form>
         <table id="usersPurchaseHistoryTable" class="table">
             <thead>
             <tr>
+                <th scope="col">Customer e-mail</th>
                 <th scope="col">Time of Pruchase</th>
                 <th scope="col">Payment method</th>
                 <th scope="col">Amount of purchased items</th>
@@ -62,8 +62,9 @@
                 <!--                <a th:href="'/purchaseView/'+${purchaseRecord.idpurchase}">-->
 
                 <!--                <input type="hidden" th:value="${purchaseRecord.idpurchase}">-->
-                <td><span th:text="${purchaseRecord.timeofpurchase}"> Name </span></td>
-                <td><span th:text="${purchaseRecord.paymentmethod}"> Name </span></td>
+                <td><span th:text="${purchaseRecord.personByPersonid.email}"> email </span></td>
+                <td><span th:text="${purchaseRecord.timeofpurchase}"> timeofpurchase </span></td>
+                <td><span th:text="${purchaseRecord.paymentmethod}"> paymentmethod </span></td>
                 <td>
                     <span th:text="${purchaseRecord.shoppingcartByShoppingcartid.shoppingcartitemsByIdcart.size}">
                     Name

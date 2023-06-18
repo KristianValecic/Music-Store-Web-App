@@ -1,4 +1,4 @@
-package hr.valecic.musicstorewebapp.security;
+package hr.valecic.musicstorewebapp.security.jwt;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
