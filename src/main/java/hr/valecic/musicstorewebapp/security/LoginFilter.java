@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import nonapi.io.github.classgraph.json.JSONUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +31,7 @@ public class LoginFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+        System.out.println("Filter");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null &&
                 authentication.getPrincipal() != AuthType.ANONYMOUS_USER.value &&
@@ -54,6 +56,7 @@ public class LoginFilter extends OncePerRequestFilter {
     }
 
     private void insertLoginToDb(Authentication authentication, HttpServletRequest request) {
+        System.out.println("Login history added");
         Loginhistory loginhistoryEntry = new Loginhistory();
         String email = ((CustomPersonDetails) authentication.getPrincipal()).getUsername();
         Person person = personService.getPersonByEmail(email).get();
@@ -67,6 +70,6 @@ public class LoginFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return !request.getMethod().equals("GET") || !request.getServletPath().equals("/login") && request.isRequestedSessionIdValid();
+        return !request.getMethod().equals("GET") || !request.getServletPath().equals("/home") && request.isRequestedSessionIdValid();
     }
 }
