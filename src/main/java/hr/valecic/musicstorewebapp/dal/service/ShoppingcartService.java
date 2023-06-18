@@ -78,6 +78,13 @@ public class ShoppingcartService {
         System.out.println("is purchased: " + shoppingcart.getIspurchased());
         return shoppingcart.getIspurchased();
     }
+    @Transactional
+    public void deleteAllUnpurchasedShoppingCartForPerson(Person person) {
+        for (Shoppingcart shoppingcart : shoppingcartRepository.findShoppingcartsByPersonAndIspurchased(person, false)) {
+            shoppingcartItemRepository.deleteAllInBatch(shoppingcartItemRepository.getShoppingcartitemsByShoppingcartByShoppingcartid(shoppingcart));
+        }
+        shoppingcartRepository.deleteShoppingcartsByPersonAndIspurchased(person, false);
+    }
 
 //    public Collection<? extends Shoppingcartitem> getCartForPerson(Person person) {
 //        Shoppingcart shoppingcartByPersonid = shoppingcartRepository.getShoppingcartByPersonid(person.getIdperson());

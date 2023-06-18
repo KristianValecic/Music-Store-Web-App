@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface ShoppingcartItemRepository  extends JpaRepository<Shoppingcartitem, Long> {
     Iterable<Shoppingcartitem> getShoppingcartitemsByShoppingcartByShoppingcartid(Shoppingcart shoppingcart);
+//    Iterable<Shoppingcartitem> getShoppingcartitemsByShoppingcartByShoppingcartid(Shoppingcart shoppingcart);
     void deleteShoppingcartitemsByShoppingcartByShoppingcartid(Shoppingcart shoppingcart);
 }

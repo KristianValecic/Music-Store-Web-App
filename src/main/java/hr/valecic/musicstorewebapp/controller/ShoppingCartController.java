@@ -34,8 +34,8 @@ public class ShoppingCartController {
     public String itemCart(Model model) {
         totalCartPrice = new BigDecimal("0");
 
-        if(userLoggedIn(model)){
-           Person person = getPersonFromContext();
+        if (userLoggedIn(model)) {
+            Person person = getPersonFromContext();
 
             if (!shoppingcartService.existsCartForPerson(person) && !ShoppingCartList.getInstance().isEmpty()) {
 //                if cart doesnt exist in db and isn't empty
@@ -58,8 +58,8 @@ public class ShoppingCartController {
     }
 
     private Person getPersonFromContext() {
-       CustomPersonDetails principal = (CustomPersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-       return personService.getPersonByEmail(principal.getUsername()).get();
+        CustomPersonDetails principal = (CustomPersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return personService.getPersonByEmail(principal.getUsername()).get();
     }
 
     private void loadCartFromDb(Person person) {
@@ -70,7 +70,7 @@ public class ShoppingCartController {
 //        List<ShoppingCartItem> instanceBefore = new ArrayList<>(ShoppingCartList.getInstance());//For control
 
         ShoppingCartList.getInstance().clear();
-       // tempList.forEach(ShoppingCartList::addItem);//
+        // tempList.forEach(ShoppingCartList::addItem);//
         ShoppingCartList.getInstance().addAll(tempList);
 
 //        List<ShoppingCartItem> instanceAFTERR = new ArrayList<>(ShoppingCartList.getInstance());//For control
@@ -103,12 +103,13 @@ public class ShoppingCartController {
     }
 
     private void saveCartForLoggedInUSer(Model model) {
-        if(userLoggedIn(model)){
+//        System.out.println("saveCartForLoggedInUSer");
+        if (userLoggedIn(model)) {
             Person person = getPersonFromContext();
             Collection<Shoppingcartitem> shoppingcartitems = Shoppingcartitem.convertToCollectionFromShoppingCartItems(ShoppingCartList.getInstance());
-           shoppingcartitems.forEach(i -> {
-               System.out.println(i.getItemByItemid().getAlbum().getAlbumname());
-           });
+//           shoppingcartitems.forEach(i -> {
+//               System.out.println(i.getItemByItemid().getAlbum().getAlbumname());
+//           });
             shoppingcartService.saveCart(person, shoppingcartitems);
         }
     }
@@ -125,7 +126,7 @@ public class ShoppingCartController {
 
         model.addAttribute("cartList", ShoppingCartList.getInstance());
         deleteItemIfNoneLeft();
-        deleteIfEmptyCart();
+//        deleteIfEmptyCart();
         return "redirect:/shoppingCart";
     }
 
@@ -136,36 +137,38 @@ public class ShoppingCartController {
 
         model.addAttribute("cartList", ShoppingCartList.getInstance());
         deleteItemIfNoneLeft();
-        deleteIfEmptyCart();
+//        deleteIfEmptyCart();
         return "redirect:/shoppingCart";
     }
 
     @GetMapping("/clearShoppingCart")
     public String clearShoppingCart(Model model) {
         ShoppingCartList.getInstance().clear();
-        saveCartForLoggedInUSer(model);
-        deleteIfEmptyCart();
+
+//        saveCartForLoggedInUSer(model);
+        deleteItemIfNoneLeft();
+
+//        System.out.println(ShoppingCartList.getInstance().size());
+//        deleteIfEmptyCart();
 
         model.addAttribute("cartList", ShoppingCartList.getInstance());
         return "redirect:/shoppingCart";
     }
 
     private void deleteItemIfNoneLeft() {
-        if (ShoppingCartList.getInstance().isEmpty()){
+        if (ShoppingCartList.getInstance().isEmpty()) {
             CustomPersonDetails principal = (CustomPersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Person person = personService.getPersonByEmail(principal.getUsername()).get();
-            System.out.println("deleteIfEmptyCart");
-
-            shoppingcartService.deleteShoppingCartForPerson(person);
+            shoppingcartService.deleteAllUnpurchasedShoppingCartForPerson(person);
         }
     }
 
     private void deleteIfEmptyCart() {
-        if (ShoppingCartList.getInstance().isEmpty()){
-            CustomPersonDetails principal = (CustomPersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Person person = personService.getPersonByEmail(principal.getUsername()).get();
-
-            shoppingcartService.deleteShoppingCartForPerson(person);
-        }
+//        if (ShoppingCartList.getInstance().isEmpty()){
+//            CustomPersonDetails principal = (CustomPersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//            Person person = personService.getPersonByEmail(principal.getUsername()).get();
+//
+//            shoppingcartService.deleteShoppingCartForPerson(person);
+//        }
     }
 }
